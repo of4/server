@@ -26,7 +26,7 @@ public class JsonServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = new User("322", "xyi", "email", "avatarUrl");
+        User user = new User("322", "HExyi", "email", "avatarUrl");
         String json = new Gson().toJson(user);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

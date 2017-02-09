@@ -26,7 +26,7 @@ public class AuthenticationServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter out = response.getWriter();
-        out.print("hello!!");
+        out.print("hello!");
         out.flush();
     }
 }
