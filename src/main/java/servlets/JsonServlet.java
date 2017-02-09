@@ -14,10 +14,10 @@ import java.io.PrintWriter;
 @WebServlet(name = "JsonServlet", urlPatterns = {"/json"})
 public class JsonServlet extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        processRequest(req, resp);
+//    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
