@@ -21,6 +21,7 @@ public class RegistrationServlet extends HttpServlet {
 
             User user = new Gson().fromJson(content.toString(), User.class);
             user.setToken("kakoi nahui token? sovsem ebanuls9I?");
+            user.setName("xyi tebe a ne im9I");
 
             String jsonUser = new Gson().toJson(user);
             resp.setContentType("application/json");
