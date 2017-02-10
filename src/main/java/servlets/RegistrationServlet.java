@@ -20,6 +20,12 @@ public class RegistrationServlet extends HttpServlet {
             reader.lines().forEach(content::append);
 
             User user = new Gson().fromJson(content.toString(), User.class);
+
+            if(user.getEmail().equals("a@a.ru")) {
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+
             user.setToken("kakoi nahui token? sovsem ebanuls9I?");
             user.setName("xyi tebe a ne im9I");
 
