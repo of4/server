@@ -30,24 +30,24 @@ public class AuthenticationServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
-            StringBuilder stringBuilder = new StringBuilder();
-            while (resultSet.next()) {
-                stringBuilder.append(resultSet.getString("name"));
-                stringBuilder.append(resultSet.getString("email"));
-                stringBuilder.append(resultSet.getString("password"));
-                stringBuilder.append("\n");
-            }
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_OK);
-            PrintWriter out = response.getWriter();
-            out.print(stringBuilder);
-            out.flush();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+//            StringBuilder stringBuilder = new StringBuilder();
+//            while (resultSet.next()) {
+//                stringBuilder.append(resultSet.getString("name"));
+//                stringBuilder.append(resultSet.getString("email"));
+//                stringBuilder.append(resultSet.getString("password"));
+//                stringBuilder.append("\n");
+//            }
+//            response.setContentType("text/html;charset=utf-8");
+//            response.setStatus(HttpServletResponse.SC_OK);
+//            PrintWriter out = response.getWriter();
+//            out.print(stringBuilder);
+//            out.flush();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
     }
 }

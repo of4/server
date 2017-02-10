@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String email;
     private String avatarUrl;
+    private String token;
 
     public User() {
 
@@ -47,5 +48,13 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
