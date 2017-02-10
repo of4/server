@@ -1,17 +1,17 @@
 package model;
 
 public class User {
-    private String id;
+    private int id;
     private String name;
     private String email;
-    private String avatarUrl;
     private String token;
+    private String avatarUrl;
 
     public User() {
 
     }
 
-    public User(String id, String name, String email, String avatarUrl) {
+    public User(int id, String name, String email, String avatarUrl) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -34,11 +34,11 @@ public class User {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
