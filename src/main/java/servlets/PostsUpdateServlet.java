@@ -30,8 +30,7 @@ public class PostsUpdateServlet extends HttpServlet {
             Location location = new Gson().
                     fromJson(parser.parse(content.toString()).
                             getAsJsonObject().
-                            get("location").
-                            getAsJsonObject().
+                            getAsJsonObject("location").
                             getAsString(), Location.class);
             String token = parser.parse(content.toString()).
                     getAsJsonObject().get("token").getAsString();
