@@ -33,7 +33,8 @@ public class PostsUpdateServlet extends HttpServlet {
                             getAsJsonObject("location").
                             getAsString(), Location.class);
             String token = parser.parse(content.toString()).
-                    getAsJsonObject().get("token").getAsString();
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
 
             List<Post> posts = new ArrayList<>();
             posts.add(new Post(1, "текст на русском", 300,
