@@ -1,10 +1,14 @@
 package servlets;
 
+import com.google.gson.Gson;
+import model.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -18,14 +22,31 @@ import static util.Constants.JDBC_DATABASE_URL;
 @WebServlet(name = "AuthenticationServlet", urlPatterns = {"/authentication"})
 public class AuthenticationServlet extends HttpServlet {
 
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        processRequest(req, resp);
-//    }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+        try (BufferedReader reader = req.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+
+            User user = new Gson().fromJson(content.toString(), User.class);
+
+            if (user.getEmail().equals("a@a.ru")) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            user.setToken("Вошел");
+            user.setName(user.getEmail());
+
+            String jsonUser = new Gson().toJson(user);
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(jsonUser);
+            resp.getWriter().flush();
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

@@ -1,6 +1,10 @@
 package servlets;
 
+
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import model.Location;
+import model.Post;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -10,9 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(name = "RegistrationServlet", urlPatterns = {"/registration"})
-public class RegistrationServlet extends HttpServlet {
+@WebServlet(name = "ChangeUserServlet", urlPatterns = {"/change_user"})
+public class ChangeUserServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (BufferedReader reader = req.getReader()) {
@@ -21,13 +27,8 @@ public class RegistrationServlet extends HttpServlet {
 
             User user = new Gson().fromJson(content.toString(), User.class);
 
-            if (user.getEmail().equals("a@a.ru")) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                return;
-            }
-
-            user.setToken("Успешно зарегистрирован");
-            user.setName(user.getEmail());
+            user.setToken("Вошел");
+            user.setName("типа в базе обновил (нет)");
 
             String jsonUser = new Gson().toJson(user);
             resp.setContentType("application/json");

@@ -1,6 +1,7 @@
 package servlets;
 
 import com.google.gson.Gson;
+import model.Post;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -11,25 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-@WebServlet(name = "RegistrationServlet", urlPatterns = {"/registration"})
-public class RegistrationServlet extends HttpServlet {
+@WebServlet(name = "NewPostServlet", urlPatterns = {"/new_post"})
+public class NewPostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (BufferedReader reader = req.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
 
-            User user = new Gson().fromJson(content.toString(), User.class);
+            Post post = new Gson().fromJson(content.toString(), Post.class);
 
-            if (user.getEmail().equals("a@a.ru")) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                return;
-            }
+            post.setId(5051);
+            post.setTimeOffset(300);
 
-            user.setToken("Успешно зарегистрирован");
-            user.setName(user.getEmail());
-
-            String jsonUser = new Gson().toJson(user);
+            String jsonUser = new Gson().toJson(post);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(jsonUser);

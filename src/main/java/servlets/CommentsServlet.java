@@ -1,6 +1,9 @@
 package servlets;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import model.Comment;
 import model.User;
 
 import javax.servlet.ServletException;
@@ -10,26 +13,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(name = "RegistrationServlet", urlPatterns = {"/registration"})
-public class RegistrationServlet extends HttpServlet {
+@WebServlet(name = "CommentsServlet", urlPatterns = "comments")
+public class CommentsServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (BufferedReader reader = req.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
 
-            User user = new Gson().fromJson(content.toString(), User.class);
+            JsonParser parser = new JsonParser();
+            JsonObject jsonObject = parser.parse(content.toString()).getAsJsonObject();
 
-            if (user.getEmail().equals("a@a.ru")) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                return;
-            }
+            String token = jsonObject.getAsJsonPrimitive("token").getAsString();
+            String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
+            String text = jsonObject.getAsJsonPrimitive("text").getAsString();
 
-            user.setToken("Успешно зарегистрирован");
-            user.setName(user.getEmail());
+            List<Comment> comments = new ArrayList<>();
+            comments.add(new Comment(1, 2, "text", 21,
+                    new User(1, "cvs", "fd", "c")));
+            comments.add(new Comment(1, 2, "pidor vyshe", 21,
+                    new User(4, postId, text, "c")));
 
-            String jsonUser = new Gson().toJson(user);
+            String jsonUser = new Gson().toJson(comments);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("UTF-8");
             resp.getWriter().write(jsonUser);
