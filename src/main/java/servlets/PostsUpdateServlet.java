@@ -27,11 +27,11 @@ public class PostsUpdateServlet extends HttpServlet {
             reader.lines().forEach(content::append);
 
             JsonParser parser = new JsonParser();
-            Location location = new Gson().
-                    fromJson(parser.parse(content.toString()).
-                            getAsJsonObject().
-                            getAsJsonObject("location").
-                            getAsString(), Location.class);
+//            Location location = new Gson().
+//                    fromJson(parser.parse(content.toString()).
+//                            getAsJsonObject().
+//                            getAsJsonObject("location").
+//                            getAsString(), Location.class);
             String token = parser.parse(content.toString()).
                     getAsJsonObject().
                     getAsJsonPrimitive("token").getAsString();
