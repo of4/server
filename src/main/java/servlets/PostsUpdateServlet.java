@@ -22,35 +22,35 @@ import java.util.List;
 public class PostsUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try (BufferedReader reader = req.getReader()) {
-            StringBuilder content = new StringBuilder();
-            reader.lines().forEach(content::append);
-
-            JsonParser parser = new JsonParser();
-            Location location = new Gson().
-                    fromJson(parser.parse(content.toString()).
-                            getAsJsonObject().
-                            get("location").
-                            getAsString(), Location.class);
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().get("token").getAsString();
-
-            List<Post> posts = new ArrayList<>();
-            posts.add(new Post(1, "текст на русском", 300,
-                    new User(322, "HE JOHN", "@@@", "здесь должен быть путь до ебососа"),
-                    new Location("mysorka street", 1, 2)));
-            posts.add(new Post(2, "текст на українському", 200,
-                    new User(223, "HE fd", "@^@^@^", "//"),
-                    location));
-
-            String jsonUser = new Gson().toJson(posts);
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().write(jsonUser);
-            resp.getWriter().flush();
-            resp.setStatus(HttpServletResponse.SC_OK);
-        } catch (Exception e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-        }
+//        try (BufferedReader reader = req.getReader()) {
+//            StringBuilder content = new StringBuilder();
+//            reader.lines().forEach(content::append);
+//
+//            JsonParser parser = new JsonParser();
+//            Location location = new Gson().
+//                    fromJson(parser.parse(content.toString()).
+//                            getAsJsonObject().
+//                            get("location").
+//                            getAsString(), Location.class);
+//            String token = parser.parse(content.toString()).
+//                    getAsJsonObject().get("token").getAsString();
+//
+//            List<Post> posts = new ArrayList<>();
+//            posts.add(new Post(1, "текст на русском", 300,
+//                    new User(322, "HE JOHN", "@@@", "здесь должен быть путь до ебососа"),
+//                    new Location("mysorka street", 1, 2)));
+//            posts.add(new Post(2, "текст на українському", 200,
+//                    new User(223, "HE fd", "@^@^@^", "//"),
+//                    location));
+//
+//            String jsonUser = new Gson().toJson(posts);
+//            resp.setContentType("application/json");
+//            resp.setCharacterEncoding("UTF-8");
+//            resp.getWriter().write(jsonUser);
+//            resp.getWriter().flush();
+//            resp.setStatus(HttpServletResponse.SC_OK);
+//        } catch (Exception e) {
+//            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+//        }
     }
 }
