@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "AddCommentServlet", urlPatterns = {"/add_comment"})
-public class AddCommentServlet  extends HttpServlet {
+public class AddCommentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (BufferedReader reader = req.getReader()) {

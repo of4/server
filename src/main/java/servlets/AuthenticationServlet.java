@@ -24,29 +24,29 @@ public class AuthenticationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        try (BufferedReader reader = req.getReader()) {
-//            StringBuilder content = new StringBuilder();
-//            reader.lines().forEach(content::append);
-//
-//            User user = new Gson().fromJson(content.toString(), User.class);
-//
-//            if (user.getEmail().equals("a@a.ru")) {
-//                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-//                return;
-//            }
-//
-//            user.setToken("Вошел");
-//            user.setName(user.getEmail());
-//
-//            String jsonUser = new Gson().toJson(user);
-//            resp.setContentType("application/json");
-//            resp.setCharacterEncoding("UTF-8");
-//            resp.getWriter().write(jsonUser);
-//            resp.getWriter().flush();
-//            resp.setStatus(HttpServletResponse.SC_OK);
-//        } catch (Exception e) {
-//            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-//        }
+        try (BufferedReader reader = req.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+
+            User user = new Gson().fromJson(content.toString(), User.class);
+
+            if (user.getEmail().equals("a@a.ru")) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            user.setToken("Вошел");
+            user.setName(user.getEmail());
+
+            String jsonUser = new Gson().toJson(user);
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            resp.getWriter().write(jsonUser);
+            resp.getWriter().flush();
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
     }
 
 //    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
