@@ -49,8 +49,8 @@ public class AuthenticationServlet extends HttpServlet {
         }
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+//    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+//            throws ServletException, IOException {
 //        try (Connection connection = DriverManager.getConnection(JDBC_DATABASE_URL)) {
 //            Statement statement = connection.createStatement();
 //            ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
@@ -70,5 +70,5 @@ public class AuthenticationServlet extends HttpServlet {
 //            e.printStackTrace();
 //        }
 
-    }
+//    }
 }

@@ -23,19 +23,19 @@ public class AddCommentServlet  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try (BufferedReader reader = req.getReader()) {
-            StringBuilder content = new StringBuilder();
-            reader.lines().forEach(content::append);
-
-            JsonParser parser = new JsonParser();
-            JsonObject jsonObject = parser.parse(content.toString()).getAsJsonObject();
-
-            String token = jsonObject.getAsJsonPrimitive("token").getAsString();
-            String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
-            String text = jsonObject.getAsJsonPrimitive("text").getAsString();
-
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            resp.setStatus(HttpServletResponse.SC_OK);
+//            StringBuilder content = new StringBuilder();
+//            reader.lines().forEach(content::append);
+//
+//            JsonParser parser = new JsonParser();
+//            JsonObject jsonObject = parser.parse(content.toString()).getAsJsonObject();
+//
+//            String token = jsonObject.getAsJsonPrimitive("token").getAsString();
+//            String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
+//            String text = jsonObject.getAsJsonPrimitive("text").getAsString();
+//
+//            resp.setContentType("application/json");
+//            resp.setCharacterEncoding("UTF-8");
+//            resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
             resp.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
