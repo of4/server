@@ -30,7 +30,7 @@ public class AddCommentServlet extends HttpServlet {
             JsonObject jsonObject = parser.parse(content.toString()).getAsJsonObject();
 
             String token = jsonObject.getAsJsonPrimitive("token").getAsString();
-            String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
+            int postId = Integer.parseInt(jsonObject.getAsJsonPrimitive("postId").getAsString());
             String text = jsonObject.getAsJsonPrimitive("text").getAsString();
 
             resp.setContentType("application/json");

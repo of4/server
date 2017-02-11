@@ -31,6 +31,7 @@ public class PostsUpdateServlet extends HttpServlet {
                     fromJson(parser.parse(content.toString()).
                             getAsJsonObject().
                             get("location").
+                            getAsJsonObject().
                             getAsString(), Location.class);
             String token = parser.parse(content.toString()).
                     getAsJsonObject().get("token").getAsString();
