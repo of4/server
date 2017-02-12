@@ -20,7 +20,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-//    private String avatarUrl;
+    @Transient
+    private String avatarUrl;
     @Transient
     private String token;
 
@@ -32,7 +33,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.email = email;
-//        this.avatarUrl = avatarUrl;
+        this.avatarUrl = avatarUrl;
     }
 
     public String getEmail() {
@@ -59,14 +60,14 @@ public class User {
         this.id = id;
     }
 
-//    public String getAvatarUrl() {
-//        return avatarUrl;
-//    }
-//
-//    public void setAvatarUrl(String avatarUrl) {
-//        this.avatarUrl = avatarUrl;
-//    }
-//
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
     public String getToken() {
         return token;
     }

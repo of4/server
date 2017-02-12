@@ -26,7 +26,7 @@ public class RegistrationServlet extends HttpServlet {
                 return;
             }
 
-//            user.setToken("Успешно зарегистрирован");
+            user.setToken("Успешно зарегистрирован");
             user.setName(user.getEmail());
 
             String jsonUser = new Gson().toJson(user);
