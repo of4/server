@@ -19,8 +19,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    private String avatarUrl;
-    private String token;
+//    private String avatarUrl;
+//    private String token;
 
     public User() {
 
@@ -30,7 +30,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.avatarUrl = avatarUrl;
+//        this.avatarUrl = avatarUrl;
     }
 
     public String getEmail() {
@@ -57,19 +57,19 @@ public class User {
         this.id = id;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
+//    public String getAvatarUrl() {
+//        return avatarUrl;
+//    }
+//
+//    public void setAvatarUrl(String avatarUrl) {
+//        this.avatarUrl = avatarUrl;
+//    }
+//
+//    public String getToken() {
+//        return token;
+//    }
+//
+//    public void setToken(String token) {
+//        this.token = token;
+//    }
 }
