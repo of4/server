@@ -1,17 +1,18 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS locations;
-DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS users;
 
 DROP SEQUENCE IF EXISTS user_id_seq;
+DROP SEQUENCE IF EXISTS location_id_seq;
 DROP SEQUENCE IF EXISTS post_id_seq;
 DROP SEQUENCE IF EXISTS comment_id_seq;
-DROP SEQUENCE IF EXISTS location_id_seq;
 
 CREATE SEQUENCE user_id_seq START 100000;
+CREATE SEQUENCE location_id_seq START 100000;
 CREATE SEQUENCE post_id_seq START 100000;
 CREATE SEQUENCE comment_id_seq START 100000;
-CREATE SEQUENCE location_id_seq START 100000;
+
 
 CREATE TABLE users
 (
@@ -19,7 +20,7 @@ CREATE TABLE users
   name          VARCHAR,
   email         VARCHAR NOT NULL,
   password      VARCHAR NOT NULL,
-  regTime       TIMESTAMP NOT NULL DEFAULT now()
+  createTime    TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE locations

@@ -1,18 +1,48 @@
 package model;
 
-public class Post {
-    private int id;
-    private String text;
-    private long timeOffset;
-    private User user;
-    private Location location;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 
-    public Post(int id, String text, long timeOffset, User user, Location location) {
+@Entity
+@Table(name = "posts")
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "postid")
+    private int id;
+    @Column(name = "text")
+    private String text;
+    @Column(name = "createtime")
+    private long createTime;
+//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "userid")
+//    private User user;
+//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "locationid")
+//    private Location location;
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
+//    private List<Comment> comments;
+
+    public Post() {
+
+    }
+
+    public Post(int id, String text, long createTime, User user, Location location) {
         this.id = id;
         this.text = text;
-        this.timeOffset = timeOffset;
-        this.user = user;
-        this.location = location;
+//        this.createTime = createTime;
+//        this.user = user;
+//        this.location = location;
     }
 
     public int getId() {
@@ -31,27 +61,27 @@ public class Post {
         this.text = text;
     }
 
-    public long getTimeOffset() {
-        return timeOffset;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setTimeOffset(long timeOffset) {
-        this.timeOffset = timeOffset;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//
+//    public Location getLocation() {
+//        return location;
+//    }
+//
+//    public void setLocation(Location location) {
+//        this.location = location;
+//    }
 }

@@ -23,7 +23,7 @@ public class NewPostServlet extends HttpServlet {
             Post post = new Gson().fromJson(content.toString(), Post.class);
 
             post.setId(5051);
-            post.setTimeOffset(300);
+            post.setCreateTime(300);
 
             String jsonUser = new Gson().toJson(post);
             resp.setContentType("application/json");

@@ -1,6 +1,7 @@
 package service;
 
 import dao.UserDao;
+import model.Post;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,11 @@ public class UserService {
     public void update(User user) {
         userDao.update(user);
     }
+
+//    @Transactional
+//    public List<Post> getAllPosts() {
+//        return userDao.getAllPosts();
+//    }
 
     @Transactional
     public List<User> getAll() {

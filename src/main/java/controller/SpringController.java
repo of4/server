@@ -30,4 +30,28 @@ public class SpringController {
         return new ModelAndView("hello", model);
     }
 
+    /*
+        @RequestMapping(method = RequestMethod.GET, value = "/users")
+    public List<User> getAllUsers(ModelMap model, HttpServletResponse response, HttpSession session) {
+        List<User> users = userService.getAll();
+        response.setStatus(HttpServletResponse.SC_CONFLICT);
+        session.setAttribute("user", users.get(0));
+        return users;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/session")
+    public User getUserFromSession(ModelMap model, HttpServletResponse response, HttpSession session) {
+        if (session.getAttribute("user") != null) {
+            User user = (User) session.getAttribute("user");
+            user.setName("OK");
+            return user;
+        }
+        return new User(1, "1", "1", "1");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+    public User getUser(@PathVariable("id") String userId, ModelMap model) {
+        return userService.getById(Long.parseLong(userId));
+    }
+    * */
 }

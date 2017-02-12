@@ -1,5 +1,6 @@
 package dao;
 
+import model.Post;
 import model.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -40,6 +41,10 @@ public class UserDao {
     public User getById(Long userId) {
         return (User) sessionFactory.getCurrentSession().get(User.class, userId);
     }
+
+//    public List<Post> getAllPosts() {
+//        return sessionFactory.getCurrentSession().createQuery("FROM Post").list();
+//    }
 
     public List<User> getAll() {
         //noinspection JpaQlInspection
