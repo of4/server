@@ -27,7 +27,7 @@ public class ChangeUserServlet extends HttpServlet {
 
             User user = new Gson().fromJson(content.toString(), User.class);
 
-            user.setToken("Вошел");
+//            user.setToken("Вошел");
             user.setName("типа в базе обновил (нет)");
 
             String jsonUser = new Gson().toJson(user);

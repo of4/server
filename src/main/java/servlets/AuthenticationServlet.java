@@ -35,7 +35,7 @@ public class AuthenticationServlet extends HttpServlet {
                 return;
             }
 
-            user.setToken("Вошел");
+//            user.setToken("Вошел");
             user.setName(user.getEmail());
 
             String jsonUser = new Gson().toJson(user);
