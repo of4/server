@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "users")
@@ -20,7 +21,8 @@ public class User {
     private String email;
 
 //    private String avatarUrl;
-//    private String token;
+    @Transient
+    private String token;
 
     public User() {
 
@@ -65,11 +67,11 @@ public class User {
 //        this.avatarUrl = avatarUrl;
 //    }
 //
-//    public String getToken() {
-//        return token;
-//    }
-//
-//    public void setToken(String token) {
-//        this.token = token;
-//    }
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }
