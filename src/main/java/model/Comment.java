@@ -10,37 +10,49 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comments")
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "commentid")
     private int commentId;
-//    @Column(name = "postid")
-//    private int postId;
-//    @Column(name = "userid")
+    @Column(name = "postid")
+    private int postId;
+    //    @Column(name = "userid")
 //    private int userId;
     @Column(name = "text")
     private String text;
-//    @Column(name = "createtime")
-//    private long createTime;
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @Column(name = "createtime")
+    private Timestamp createTime;
+    //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "postid")
 //    private Post post;
 //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userid")
-//    private User user;
+    @Transient
+    private User user;
+
+
+    @Transient
+    private long timeOffset;
+/*
+    private int commentId;
+    private int postId;
+    private String text;
+    private long timeOffset;
+    private User user;
+*/
 
     public Comment() {
 
     }
 
-    public Comment(String text, long createTime, User user) {
+    public Comment(String text) {
         this.text = text;
-//        this.createTime = createTime;
-//        this.user = user;
     }
 
     public int getCommentId() {
@@ -51,21 +63,13 @@ public class Comment {
         this.commentId = commentId;
     }
 
-//    public int getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(int userId) {
-//        this.userId = userId;
-//    }
-//
-//    public int getPostId() {
-//        return postId;
-//    }
-//
-//    public void setPostId(int postId) {
-//        this.postId = postId;
-//    }
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
+    }
 
     public String getText() {
         return text;
@@ -75,27 +79,27 @@ public class Comment {
         this.text = text;
     }
 
-//    public long getCreateTime() {
-//        return createTime;
-//    }
-//
-//    public void setCreateTime(long createTime) {
-//        this.createTime = createTime;
-//    }
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
 
-//    public Post getPost() {
-//        return post;
-//    }
-//
-//    public void setPost(Post post) {
-//        this.post = post;
-//    }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public long getTimeOffset() {
+        return timeOffset;
+    }
+
+    public void setTimeOffset(long timeOffset) {
+        this.timeOffset = timeOffset;
+    }
 }

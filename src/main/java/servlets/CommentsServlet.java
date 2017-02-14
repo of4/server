@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,10 +32,8 @@ public class CommentsServlet extends HttpServlet {
             String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
 
             List<Comment> comments = new ArrayList<>();
-            comments.add(new Comment("3", 21,
-                    new User(1, "cvs", "fd", "c")));
-            comments.add(new Comment("2", 21,
-                    new User(4, postId, "cas", "c")));
+            comments.add(new Comment("3"));
+            comments.add(new Comment("2"));
 
             String jsonUser = new Gson().toJson(comments);
             resp.setContentType("application/json");

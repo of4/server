@@ -11,13 +11,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userid")
     private int id;
     @Column(name = "name")
@@ -26,10 +27,21 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "createtime")
+    private Timestamp createTime;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 //    private List<Post> posts;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 //    private List<Comment> comments;
+
+
+    /*
+    private int id;
+    private String name;
+    private String email;
+    private String token;
+    private String avatarUrl
+     */
 
     @Transient
     private String avatarUrl;
@@ -95,7 +107,39 @@ public class User {
         this.token = token;
     }
 
-//    public List<Post> getPosts() {
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return email != null ? email.equals(user.email) : user.email == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return email != null ? email.hashCode() : 0;
+    }
+
+    //    public Timestamp getCreateTime() {
+//        return createTime;
+//    }
+//
+//    public void setCreateTime(Timestamp createTime) {
+//        this.createTime = createTime;
+//    }
+
+    //    public List<Post> getPosts() {
 //        return posts;
 //    }
 //

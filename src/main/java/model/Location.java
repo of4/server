@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "locations")
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "locationid")
     private int id;
     @Column(name = "locationname")
@@ -27,6 +27,11 @@ public class Location {
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "location")
 //    private List<Post> posts;
 
+    /*
+    private String locationName;
+    private double latitude;
+    private double longitude;
+    */
     public Location() {
 
     }
@@ -68,12 +73,4 @@ public class Location {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
-
-//    public List<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(List<Post> posts) {
-//        this.posts = posts;
-//    }
 }

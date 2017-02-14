@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 
 @WebServlet(name = "NewPostServlet", urlPatterns = {"/new_post"})
 public class NewPostServlet extends HttpServlet {
@@ -23,7 +24,7 @@ public class NewPostServlet extends HttpServlet {
             Post post = new Gson().fromJson(content.toString(), Post.class);
 
             post.setId(5051);
-            post.setCreateTime(300);
+            post.setCreateTime(new Timestamp(300));
 
             String jsonUser = new Gson().toJson(post);
             resp.setContentType("application/json");

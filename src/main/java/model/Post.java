@@ -11,38 +11,47 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "postid")
     private int id;
     @Column(name = "text")
     private String text;
     @Column(name = "createtime")
-    private long createTime;
+    private Timestamp createTime;
 //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userid")
-//    private User user;
+    @Transient
+    private User user;
 //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "locationid")
 //    private Location location;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
 //    private List<Comment> comments;
 
+    @Transient
+    private long timeOffset;
+
+    /*
+    private int id;
+    private String text;
+    private long timeOffset;
+    private User user;
+    private Location location;
+     */
     public Post() {
 
     }
 
-    public Post(int id, String text, long createTime, User user, Location location) {
-        this.id = id;
+    public Post(String text) {
         this.text = text;
-//        this.createTime = createTime;
-//        this.user = user;
-//        this.location = location;
     }
 
     public int getId() {
@@ -61,11 +70,11 @@ public class Post {
         this.text = text;
     }
 
-    public long getCreateTime() {
+    public Timestamp getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(long createTime) {
+    public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
 

@@ -30,11 +30,6 @@ public class UserService {
         userDao.update(user);
     }
 
-//    @Transactional
-//    public List<Post> getAllPosts() {
-//        return userDao.getAllPosts();
-//    }
-
     @Transactional
     public List<User> getAll() {
         return userDao.getAll();
@@ -43,10 +38,5 @@ public class UserService {
     @Transactional
     public User getById(Long userId) {
         return userDao.getById(userId);
-    }
-
-    @Transactional
-    public User getByLogin(String login) {
-        return userDao.getByLogin(login);
     }
 }
