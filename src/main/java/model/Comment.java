@@ -18,15 +18,15 @@ import java.sql.Timestamp;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "commentid")
+    @Column(name = "comment_id")
     private int commentId;
-    @Column(name = "postid")
+    @Column(name = "post_id")
     private int postId;
-    //    @Column(name = "userid")
-//    private int userId;
+    @Column(name = "user_id")
+    private int userId;
     @Column(name = "text")
     private String text;
-    @Column(name = "createtime")
+    @Column(name = "create_time")
     private Timestamp createTime;
     //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "postid")
@@ -51,8 +51,13 @@ public class Comment {
 
     }
 
-    public Comment(String text) {
+    public Comment(int postId, int userId, String text, Timestamp createTime, User user, long timeOffset) {
+        this.postId = postId;
+        this.userId = userId;
         this.text = text;
+        this.createTime = createTime;
+        this.user = user;
+        this.timeOffset = timeOffset;
     }
 
     public int getCommentId() {
@@ -69,6 +74,14 @@ public class Comment {
 
     public void setPostId(int postId) {
         this.postId = postId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getText() {

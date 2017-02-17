@@ -1,11 +1,13 @@
 package dao;
 
+import model.Post;
 import model.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -39,6 +41,11 @@ public class UserDao {
 
     public void delete(User user) {
         sessionFactory.getCurrentSession().delete(user);
+    }
+
+    public List<Post> getFavoritesPosts(User user) {
+//        return sessionFactory.getCurrentSession().createQuery("FROM Post where ").list();
+        return new ArrayList<>();
     }
 
     public User getById(Long userId) {

@@ -20,16 +20,20 @@ import java.util.List;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "postid")
+    @Column(name = "post_id")
     private int id;
+    @Column(name = "location_id")
+    private int locationId;
     @Column(name = "text")
     private String text;
-    @Column(name = "createtime")
+    @Column(name = "create_time")
     private Timestamp createTime;
 //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "userid")
     @Transient
     private User user;
+    @Transient
+    private Location location;
 //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "locationid")
 //    private Location location;
@@ -50,8 +54,27 @@ public class Post {
 
     }
 
-    public Post(String text) {
+    public Post(String text, Timestamp createTime, User user, long timeOffset) {
         this.text = text;
+        this.createTime = createTime;
+        this.user = user;
+        this.timeOffset = timeOffset;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public long getTimeOffset() {
+        return timeOffset;
+    }
+
+    public void setTimeOffset(long timeOffset) {
+        this.timeOffset = timeOffset;
     }
 
     public int getId() {
@@ -78,7 +101,23 @@ public class Post {
         this.createTime = createTime;
     }
 
-//    public User getUser() {
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    //    public User getUser() {
 //        return user;
 //    }
 //

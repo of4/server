@@ -67,8 +67,8 @@ public class PostsUpdateServlet extends HttpServlet {
 
 
             List<Post> posts = new ArrayList<>();
-            posts.add(new Post("текст на русском"));
-            posts.add(new Post("текст на українському"));
+//            posts.add(new Post("текст на русском"));
+//            posts.add(new Post("текст на українському"));
 
             String jsonUser = new Gson().toJson(posts);
             resp.setContentType("application/json");

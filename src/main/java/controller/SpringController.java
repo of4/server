@@ -11,24 +11,24 @@ import org.springframework.web.servlet.ModelAndView;
 public class SpringController {
 
 
-    @RequestMapping(value = "/hello", method = RequestMethod.GET)
-    public String sayHello(ModelMap model) {
-        model.addAttribute("message", "Spring 3 MVC Hello World");
-        return "hello";
-    }
-
-    @RequestMapping(value = "/bye" ,method = RequestMethod.GET)
-    public User sayBye(ModelMap model) {
-        model.addAttribute("message", "Spring 3 MVC bye-bye!");
-        return new User(1, "2", "3", "4");
-    }
-
-    @RequestMapping(value = {"/hello2", "/hello3"} ,method = {RequestMethod.GET, RequestMethod.POST},
-            headers = "User-Agent: Android")
-    public ModelAndView sayHello2(ModelMap model) {
-        model.addAttribute("message", "Spring 3 MVC Hello World 2");
-        return new ModelAndView("hello", model);
-    }
+//    @RequestMapping(value = "/hello", method = RequestMethod.GET)
+//    public String sayHello(ModelMap model) {
+//        model.addAttribute("message", "Spring 3 MVC Hello World");
+//        return "hello";
+//    }
+//
+//    @RequestMapping(value = "/bye" ,method = RequestMethod.GET)
+//    public User sayBye(ModelMap model) {
+//        model.addAttribute("message", "Spring 3 MVC bye-bye!");
+//        return new User(1, "2", "3", "4");
+//    }
+//
+//    @RequestMapping(value = {"/hello2", "/hello3"} ,method = {RequestMethod.GET, RequestMethod.POST},
+//            headers = "User-Agent: Android")
+//    public ModelAndView sayHello2(ModelMap model) {
+//        model.addAttribute("message", "Spring 3 MVC Hello World 2");
+//        return new ModelAndView("hello", model);
+//    }
 
     /*
         @RequestMapping(method = RequestMethod.GET, value = "/users")

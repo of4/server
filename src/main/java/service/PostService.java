@@ -4,14 +4,17 @@ import dao.PostDao;
 import model.Location;
 import model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PostService {
 
     @Autowired
-    private PostDao postDao;
+    PostDao postDao;
 
     @Transactional
     public void create(Post post) {
@@ -29,7 +32,13 @@ public class PostService {
     }
 
     @Transactional
+    public List<Post> getAllPosts() {
+        return postDao.getAllPosts();
+    }
+
+    @Transactional
     public List<Post> getNearPosts(Location location) {
-        return postDao.getPosts(location);
+//        return postDao.getPosts(location);
+        return new ArrayList<>();
     }
 }

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS favorite;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS locations;
@@ -8,43 +9,55 @@ DROP SEQUENCE IF EXISTS location_id_seq;
 DROP SEQUENCE IF EXISTS post_id_seq;
 DROP SEQUENCE IF EXISTS comment_id_seq;
 
+DROP TYPE IF EXISTS posts_category;
+
 CREATE SEQUENCE user_id_seq START 100000;
 CREATE SEQUENCE location_id_seq START 100000;
 CREATE SEQUENCE post_id_seq START 100000;
 CREATE SEQUENCE comment_id_seq START 100000;
 
+CREATE TYPE posts_category AS ENUM ('ALL', 'EDU', 'INF', 'JOB', 'SHO', 'AD');
 
 CREATE TABLE users
 (
-  userId        INTEGER PRIMARY KEY DEFAULT nextval('user_id_seq'),
+  user_id       INTEGER PRIMARY KEY DEFAULT nextval('user_id_seq'),
   name          VARCHAR,
   email         VARCHAR NOT NULL,
   password      VARCHAR NOT NULL,
-  createTime    TIMESTAMP NOT NULL DEFAULT now()
+  advertiser    BOOLEAN NOT NULL DEFAULT FALSE,
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE locations
 (
-  locationId    INTEGER PRIMARY KEY DEFAULT nextval('location_id_seq'),
-  locationName  VARCHAR,
+  location_id   INTEGER PRIMARY KEY DEFAULT nextval('location_id_seq'),
+  location_name VARCHAR,
   latitude      NUMERIC NOT NULL,
   longitude     NUMERIC NOT NULL
 );
 
 CREATE TABLE posts
 (
-  postId        INTEGER PRIMARY KEY DEFAULT nextval('post_id_seq'),
-  locationId    INTEGER REFERENCES locations (locationId),
-  userId        INTEGER REFERENCES users (userId),
+  post_id       INTEGER PRIMARY KEY DEFAULT nextval('post_id_seq'),
+  location_id   INTEGER REFERENCES locations (location_id),
+  user_id       INTEGER REFERENCES users (user_id),
   text          VARCHAR,
-  createTime    TIMESTAMP NOT NULL DEFAULT now()
+  category      posts_category DEFAULT 'ALL',
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE comments
 (
-  commentId     INTEGER PRIMARY KEY DEFAULT nextval('comment_id_seq'),
-  postId        INTEGER REFERENCES posts (postId),
-  userId        INTEGER REFERENCES users (userId),
+  comment_id    INTEGER PRIMARY KEY DEFAULT nextval('comment_id_seq'),
+  post_id       INTEGER REFERENCES posts (post_id),
+  user_id       INTEGER REFERENCES users (user_id),
   text          VARCHAR,
-  createTime    TIMESTAMP NOT NULL DEFAULT now()
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE TABLE favorite
+(
+  user_id       INTEGER REFERENCES users(user_id),
+  post_id       INTEGER REFERENCES posts(post_id),
+  PRIMARY KEY (user_id, post_id)
 );

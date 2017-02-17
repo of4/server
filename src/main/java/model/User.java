@@ -1,25 +1,20 @@
 package model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.sql.Timestamp;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userid")
+    @Column(name = "user_id")
     private int id;
     @Column(name = "name")
     private String name;
@@ -27,13 +22,15 @@ public class User {
     private String email;
     @Column(name = "password")
     private String password;
-    @Column(name = "createtime")
+    @Column(name = "advertiser")
+    private boolean advertiser;
+    @Column(name = "create_time")
     private Timestamp createTime;
+
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 //    private List<Post> posts;
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 //    private List<Comment> comments;
-
 
     /*
     private int id;
@@ -52,11 +49,13 @@ public class User {
 
     }
 
-    public User(int id, String name, String email, String avatarUrl) {
-        this.id = id;
+    public User(String name, String email, String password, Timestamp createTime, String avatarUrl, String token) {
         this.name = name;
         this.email = email;
+        this.password = password;
+        this.createTime = createTime;
         this.avatarUrl = avatarUrl;
+        this.token = token;
     }
 
     public String getEmail() {
@@ -113,6 +112,14 @@ public class User {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public boolean isAdvertiser() {
+        return advertiser;
+    }
+
+    public void setAdvertiser(boolean advertiser) {
+        this.advertiser = advertiser;
     }
 
     @Override

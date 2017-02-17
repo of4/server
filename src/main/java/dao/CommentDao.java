@@ -17,8 +17,9 @@ public class CommentDao {
     SessionFactory sessionFactory;
 
     public void create(int postId, String text) {
-        Comment comment = new Comment(text);
+        Comment comment = new Comment();
         comment.setPostId(postId);
+        comment.setText(text);
         sessionFactory.getCurrentSession().save(comment);
     }
 

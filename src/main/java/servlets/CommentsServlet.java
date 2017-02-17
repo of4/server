@@ -32,8 +32,8 @@ public class CommentsServlet extends HttpServlet {
             String postId = jsonObject.getAsJsonPrimitive("postId").getAsString();
 
             List<Comment> comments = new ArrayList<>();
-            comments.add(new Comment("3"));
-            comments.add(new Comment("2"));
+//            comments.add(new Comment("3"));
+//            comments.add(new Comment("2"));
 
             String jsonUser = new Gson().toJson(comments);
             resp.setContentType("application/json");

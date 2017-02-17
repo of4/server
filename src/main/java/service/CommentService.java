@@ -12,7 +12,7 @@ import java.util.List;
 public class CommentService {
 
     @Autowired
-    private CommentDao commentDao;
+    CommentDao commentDao;
 
     @Transactional
     public void create(int postId, String text) {

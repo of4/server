@@ -13,11 +13,16 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserDao userDao;
+    UserDao userDao;
 
     @Transactional
     public void create(User user) {
         userDao.create(user);
+    }
+
+    @Transactional
+    public User getByEmailAndPassword(String email, String password) {
+        return userDao.getUser(email, password);
     }
 
     @Transactional
