@@ -38,7 +38,7 @@ public class PostService {
 
     @Transactional
     public List<Post> getNearPosts(Location location) {
-//        return postDao.getPosts(location);
-        return new ArrayList<>();
+        return postDao.getNearPosts(location);
+//        return new ArrayList<>();
     }
 }

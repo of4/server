@@ -1,7 +1,9 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import dao.LocationDao;
+import model.Location;
 import model.Post;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,7 +32,7 @@ public class PostController {
     @Autowired
     LocationService locationService;
 
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_posts")
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_all_posts")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
@@ -44,8 +47,8 @@ public class PostController {
             User user = post.getUser();
             if (session.getAttribute(user.getToken()) != null) {
                 post.setCreateTime(new Timestamp(System.currentTimeMillis()));
-                locationService.create(post.getLocation());
-                post.setLocationId(post.getLocation().getId());
+//                locationService.create(post.getLocation());
+//                post.setLocationId(post.getLocation().getId());
                 postService.create(post);
                 return post;
             } else {
@@ -56,5 +59,32 @@ public class PostController {
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
         return post;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_posts")
+    public List<Post> getPostsInLocationNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        try (BufferedReader reader = request.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+
+            JsonParser parser = new JsonParser();
+            Location location = new Gson().
+                    fromJson(parser.parse(content.toString()).
+                            getAsJsonObject().
+                            getAsJsonObject("location"), Location.class);
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+
+            if (session.getAttribute(token) != null) {
+                return postService.getNearPosts(location);
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
+        return new ArrayList<>();
     }
 }

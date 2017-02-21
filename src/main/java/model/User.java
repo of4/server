@@ -1,13 +1,20 @@
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -26,12 +33,14 @@ public class User {
     private boolean advertiser;
     @Column(name = "create_time")
     private Timestamp createTime;
-
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-//    private List<Post> posts;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-//    private List<Comment> comments;
-
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Post> posts;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Comment> comments;
+    @ManyToMany
+    @JoinTable(name = "favorite", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+    inverseJoinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "post_id")})
+    private List<Post> favorites;
     /*
     private int id;
     private String name;
@@ -122,6 +131,30 @@ public class User {
         this.advertiser = advertiser;
     }
 
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Post> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Post> favorites) {
+        this.favorites = favorites;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -137,20 +170,4 @@ public class User {
     public int hashCode() {
         return email != null ? email.hashCode() : 0;
     }
-
-    //    public Timestamp getCreateTime() {
-//        return createTime;
-//    }
-//
-//    public void setCreateTime(Timestamp createTime) {
-//        this.createTime = createTime;
-//    }
-
-    //    public List<Post> getPosts() {
-//        return posts;
-//    }
-//
-//    public void setPosts(List<Post> posts) {
-//        this.posts = posts;
-//    }
 }

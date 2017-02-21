@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.sql.Timestamp;
@@ -28,17 +30,16 @@ public class Post {
     private String text;
     @Column(name = "create_time")
     private Timestamp createTime;
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userid")
-    @Transient
-    private User user;
-    @Transient
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id")
     private Location location;
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "locationid")
-//    private Location location;
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
-//    private List<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
+    private List<Comment> comments;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToMany(mappedBy = "favorites")
+    private List<User> users;
 
     @Transient
     private long timeOffset;
@@ -49,7 +50,8 @@ public class Post {
     private long timeOffset;
     private User user;
     private Location location;
-     */
+    */
+
     public Post() {
 
     }
@@ -117,19 +119,19 @@ public class Post {
         this.location = location;
     }
 
-    //    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-//
-//    public Location getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(Location location) {
-//        this.location = location;
-//    }
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

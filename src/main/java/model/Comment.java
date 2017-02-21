@@ -1,6 +1,5 @@
 package model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,12 +27,11 @@ public class Comment {
     private String text;
     @Column(name = "create_time")
     private Timestamp createTime;
-    //    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "postid")
-//    private Post post;
-//    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "userid")
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
 
@@ -114,5 +112,13 @@ public class Comment {
 
     public void setTimeOffset(long timeOffset) {
         this.timeOffset = timeOffset;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

@@ -32,8 +32,17 @@ public class PostDao {
         return sessionFactory.getCurrentSession().createQuery("FROM Post").list();
     }
 
-    public List<Post> getPosts(Post post) {
-
+    public List<Post> getNearPosts(Location location) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        double radius = 1.4;
+        Query query = sessionFactory.getCurrentSession().
+                createQuery("from Post p where (p.location.latitude - ?) * (p.location.latitude - ?)  + (p.location.longitude - ?) * (p.location.longitude - ?) < ?");
+        query.setParameter(0, latitude);
+        query.setParameter(1, latitude);
+        query.setParameter(2, longitude);
+        query.setParameter(3, longitude);
+        query.setParameter(4, radius * radius);
 
 //        double distance = Math.sqrt(Math.pow(postLocation.getLatitude() - currentLocation.getLatitude(), 2) +
 //                Math.pow(postLocation.getLongitude() - currentLocation.getLongitude(), 2));//locationA.distanceTo(locationB);
@@ -50,6 +59,6 @@ public class PostDao {
 //        }
 //        query.setParameter(0, post.getLocationId());
 //        return query.list();
-        return new ArrayList<>();
+        return query.list();
     }
 }
