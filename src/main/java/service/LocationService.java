@@ -1,9 +1,7 @@
 package service;
 
 import dao.LocationDao;
-import dao.UserDao;
 import model.Location;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

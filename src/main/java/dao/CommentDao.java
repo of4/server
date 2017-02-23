@@ -6,7 +6,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -32,8 +31,6 @@ public class CommentDao {
     }
 
     public List<Comment> getComments(int postId) {
-//        Query query = sessionFactory.getCurrentSession().
-//                createQuery("from Comment c where c.postId = ?");
         Query query = sessionFactory.getCurrentSession().createQuery("FROM Comment c where c.postId = ?");
         query.setParameter(0, postId);
         return query.list();

@@ -2,7 +2,6 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
-import dao.LocationDao;
 import model.Comment;
 import model.Location;
 import model.Post;
@@ -12,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import service.CommentService;
 import service.LocationService;
 import service.PostService;
 

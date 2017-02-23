@@ -36,8 +36,6 @@ public class PostDao {
         try (Session s = sessionFactory.openSession()) {
             return s.createCriteria(Post.class).list();
         }
-
-//        return sessionFactory.getCurrentSession().createQuery("FROM Post").list();
     }
 
     public void addToFavorite(int userId, int postId) {
@@ -59,22 +57,6 @@ public class PostDao {
     }
 
     public List<Comment> getComments(int postId) {
-        /*
-        //        Query query = sessionFactory.getCurrentSession().
-        //          createQuery("from Comment c where c.postId = ?");
-
-        Query commentCuery = sessionFactory.getCurrentSession().
-                createQuery("FROM Comment c where c.postId = ?");
-        commentCuery.setParameter(0, postId);
-        List<Comment> comments = commentCuery.list();
-        for (Comment comment : comments) {
-            Query queryUsers = sessionFactory.getCurrentSession().
-                    createQuery("FROM User u where u.id = ?");
-            queryUsers.setParameter(0, comment.getUserId());
-            comment.setUser((User) queryUsers.list().get(0));
-        }
-        return comments;
-         */
         Query queryComments = sessionFactory.getCurrentSession().
                 createQuery("from Comment c where c.postId = ?");
         queryComments.setParameter(0, postId);
