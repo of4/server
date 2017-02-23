@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,57 +27,40 @@ public class Post {
     private int id;
     @Column(name = "location_id")
     private int locationId;
+    @Column(name = "user_id")
+    private int userId;
     @Column(name = "text")
     private String text;
-    @Column(name = "create_time")
+    @Column(name = "create_time", insertable = false)
     private Timestamp createTime;
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
-    private Location location;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
-    private List<Comment> comments;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToMany(mappedBy = "favorites")
-    private List<User> users;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "location_id")
+//    private Location location;
+//
+//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<Comment> comments;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//
+//    @ManyToMany
+//    @JoinTable(name = "favorite", joinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "post_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+//    private List<User> users;
 
     @Transient
     private long timeOffset;
-
-    /*
-    private int id;
-    private String text;
-    private long timeOffset;
+    @Transient
     private User user;
+    @Transient
     private Location location;
-    */
+    @Transient
+    private List<Comment> comments;
 
     public Post() {
 
-    }
-
-    public Post(String text, Timestamp createTime, User user, long timeOffset) {
-        this.text = text;
-        this.createTime = createTime;
-        this.user = user;
-        this.timeOffset = timeOffset;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public long getTimeOffset() {
-        return timeOffset;
-    }
-
-    public void setTimeOffset(long timeOffset) {
-        this.timeOffset = timeOffset;
     }
 
     public int getId() {
@@ -85,6 +69,14 @@ public class Post {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
     }
 
     public String getText() {
@@ -103,12 +95,28 @@ public class Post {
         this.createTime = createTime;
     }
 
-    public int getLocationId() {
-        return locationId;
+    public long getTimeOffset() {
+        return timeOffset;
     }
 
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setTimeOffset(long timeOffset) {
+        this.timeOffset = timeOffset;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Location getLocation() {
@@ -125,13 +133,5 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 }

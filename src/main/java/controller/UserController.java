@@ -35,7 +35,6 @@ public class UserController {
                 String token = generateToken();
                 user.setToken(token);
                 user.setName(user.getEmail());
-                user.setCreateTime(new Timestamp(System.currentTimeMillis()));
                 userService.create(user);
                 session.setAttribute(token, user);
             }

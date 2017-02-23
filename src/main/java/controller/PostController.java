@@ -3,6 +3,7 @@ package controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import dao.LocationDao;
+import model.Comment;
 import model.Location;
 import model.Post;
 import model.User;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.CommentService;
 import service.LocationService;
 import service.PostService;
 
@@ -46,9 +48,10 @@ public class PostController {
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
             if (session.getAttribute(user.getToken()) != null) {
-                post.setCreateTime(new Timestamp(System.currentTimeMillis()));
-//                locationService.create(post.getLocation());
-//                post.setLocationId(post.getLocation().getId());
+                user = (User) session.getAttribute(user.getToken());
+                locationService.create(post.getLocation());
+                post.setLocationId(post.getLocation().getId());
+                post.setUserId(user.getId());
                 postService.create(post);
                 return post;
             } else {
@@ -86,5 +89,51 @@ public class PostController {
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
         return new ArrayList<>();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/comments")
+    public List<Comment> userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        List<Comment> comments = new ArrayList<>();
+        try (BufferedReader reader = request.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+            JsonParser parser = new JsonParser();
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+            int postId = Integer.parseInt(parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("postId").getAsString());
+            if (session.getAttribute(token) != null) {
+                comments.addAll(postService.getComments(postId));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
+        return comments;
+    }
+
+    //
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
+    public void addToFavorite(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        try (BufferedReader reader = request.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+            JsonParser parser = new JsonParser();
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+            int postId = Integer.parseInt(parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("postId").getAsString());
+            if (session.getAttribute(token) != null) {
+                User user = (User) session.getAttribute(token);
+                postService.addToFavorite(user.getId(), postId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
     }
 }

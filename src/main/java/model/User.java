@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -31,23 +29,17 @@ public class User {
     private String password;
     @Column(name = "advertiser")
     private boolean advertiser;
-    @Column(name = "create_time")
+    @Column(name = "create_time", insertable = false)
     private Timestamp createTime;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Post> posts;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Comment> comments;
-    @ManyToMany
-    @JoinTable(name = "favorite", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "post_id", referencedColumnName = "post_id")})
-    private List<Post> favorites;
-    /*
-    private int id;
-    private String name;
-    private String email;
-    private String token;
-    private String avatarUrl
-     */
+
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+//    private List<Post> posts;
+//
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+//    private List<Comment> comments;
+//
+//    @ManyToMany(mappedBy = "users")
+//    private List<Post> favorites;
 
     @Transient
     private String avatarUrl;
@@ -58,13 +50,20 @@ public class User {
 
     }
 
-    public User(String name, String email, String password, Timestamp createTime, String avatarUrl, String token) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.email = email;
-        this.password = password;
-        this.createTime = createTime;
-        this.avatarUrl = avatarUrl;
-        this.token = token;
     }
 
     public String getEmail() {
@@ -83,20 +82,20 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public boolean isAdvertiser() {
+        return advertiser;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAdvertiser(boolean advertiser) {
+        this.advertiser = advertiser;
     }
 
-    public int getId() {
-        return id;
+    public Timestamp getCreateTime() {
+        return createTime;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     public String getAvatarUrl() {
@@ -113,46 +112,6 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    public boolean isAdvertiser() {
-        return advertiser;
-    }
-
-    public void setAdvertiser(boolean advertiser) {
-        this.advertiser = advertiser;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<Post> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(List<Post> favorites) {
-        this.favorites = favorites;
     }
 
     @Override

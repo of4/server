@@ -1,24 +1,24 @@
 package dao;
 
-import javafx.geometry.Pos;
 import model.Comment;
-import model.Location;
-import model.Post;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class CommentDao {
+
     @Autowired
     SessionFactory sessionFactory;
 
-    public void create(int postId, String text) {
+    public void create(int postId, int userId, String text) {
         Comment comment = new Comment();
         comment.setPostId(postId);
+        comment.setUserId(userId);
         comment.setText(text);
         sessionFactory.getCurrentSession().save(comment);
     }
@@ -32,8 +32,9 @@ public class CommentDao {
     }
 
     public List<Comment> getComments(int postId) {
-        Query query = sessionFactory.getCurrentSession().
-                createQuery("from Comment c where c.postId = ?");
+//        Query query = sessionFactory.getCurrentSession().
+//                createQuery("from Comment c where c.postId = ?");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Comment c where c.postId = ?");
         query.setParameter(0, postId);
         return query.list();
     }

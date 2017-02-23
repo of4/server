@@ -25,37 +25,24 @@ public class Comment {
     private int userId;
     @Column(name = "text")
     private String text;
-    @Column(name = "create_time")
+    @Column(name = "create_time", insertable = false)
     private Timestamp createTime;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    private Post post;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "post_id")
+//    private Post post;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     @Transient
     private long timeOffset;
-/*
-    private int commentId;
-    private int postId;
-    private String text;
-    private long timeOffset;
+    @Transient
     private User user;
-*/
 
     public Comment() {
 
-    }
-
-    public Comment(int postId, int userId, String text, Timestamp createTime, User user, long timeOffset) {
-        this.postId = postId;
-        this.userId = userId;
-        this.text = text;
-        this.createTime = createTime;
-        this.user = user;
-        this.timeOffset = timeOffset;
     }
 
     public int getCommentId() {
@@ -98,14 +85,6 @@ public class Comment {
         this.createTime = createTime;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public long getTimeOffset() {
         return timeOffset;
     }
@@ -114,11 +93,11 @@ public class Comment {
         this.timeOffset = timeOffset;
     }
 
-    public Post getPost() {
-        return post;
+    public User getUser() {
+        return user;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

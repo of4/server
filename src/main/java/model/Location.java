@@ -2,11 +2,9 @@ package model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -22,22 +20,12 @@ public class Location {
     private double latitude;
     @Column(name = "longitude")
     private double longitude;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
-    private Post post;
 
-    /*
-    private String locationName;
-    private double latitude;
-    private double longitude;
-    */
+//    @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
+//    private Post post;
+
     public Location() {
 
-    }
-
-    public Location(String locationName, double latitude, double longitude) {
-        this.locationName = locationName;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     public int getId() {
@@ -70,13 +58,5 @@ public class Location {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
     }
 }

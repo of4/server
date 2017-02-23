@@ -15,8 +15,8 @@ public class CommentService {
     CommentDao commentDao;
 
     @Transactional
-    public void create(int postId, String text) {
-        commentDao.create(postId, text);
+    public void create(int postId, int userId, String text) {
+        commentDao.create(postId, userId, text);
     }
 
     @Transactional

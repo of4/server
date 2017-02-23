@@ -1,8 +1,10 @@
 package service;
 
 import dao.PostDao;
+import model.Comment;
 import model.Location;
 import model.Post;
+import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,8 +39,20 @@ public class PostService {
     }
 
     @Transactional
+    public void addToFavorite(int userId, int postId) {
+        postDao.addToFavorite(userId, postId);
+    }
+
+
+    @Transactional
+    public List<Comment> getComments(int postId) {
+        return postDao.getComments(postId);
+    }
+
+    @Transactional
     public List<Post> getNearPosts(Location location) {
         return postDao.getNearPosts(location);
-//        return new ArrayList<>();
     }
+
+
 }
