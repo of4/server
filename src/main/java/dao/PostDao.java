@@ -42,10 +42,20 @@ public class PostDao {
 
     public void addToFavorite(int userId, int postId) {
         Favorite favorite = new Favorite();
-        favorite.setUserID(userId);
-        favorite.setPostId(postId);
         favorite.setPk(userId, postId);
         sessionFactory.getCurrentSession().save(favorite);
+    }
+
+    public List<Post> getFavorites(int userId) {
+        Query queryFavorites = sessionFactory.getCurrentSession().
+                createQuery("from Favorite f where f.userID = ?");
+        queryFavorites.setParameter(0, userId);
+        List<Favorite> favorites = queryFavorites.list();
+        List<Post> posts = new ArrayList<>();
+        for (Favorite favorite : favorites) {
+            posts.add(sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId()));
+        }
+        return posts;
     }
 
     public List<Comment> getComments(int postId) {

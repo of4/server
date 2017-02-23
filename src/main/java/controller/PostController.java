@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/spring")
 public class PostController {
 
     @Autowired
@@ -114,7 +113,6 @@ public class PostController {
         return comments;
     }
 
-    //
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
     public void addToFavorite(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         try (BufferedReader reader = request.getReader()) {
@@ -135,5 +133,27 @@ public class PostController {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_favorites")
+    public List<Post> getFavorites(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+        List<Post> posts = new ArrayList<>();
+        try (BufferedReader reader = request.getReader()) {
+            StringBuilder content = new StringBuilder();
+            reader.lines().forEach(content::append);
+            JsonParser parser = new JsonParser();
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+            if (session.getAttribute(token) != null) {
+                User user = (User) session.getAttribute(token);
+                posts.addAll(postService.getFavorites(user.getId()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
+        return posts;
     }
 }

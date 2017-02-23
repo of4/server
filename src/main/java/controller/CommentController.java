@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 
 @RestController
-@RequestMapping("/spring")
 public class CommentController {
 
     @Autowired

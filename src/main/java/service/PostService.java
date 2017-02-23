@@ -43,6 +43,10 @@ public class PostService {
         postDao.addToFavorite(userId, postId);
     }
 
+    @Transactional
+    public List<Post> getFavorites(int userId) {
+        return postDao.getFavorites(userId);
+    }
 
     @Transactional
     public List<Comment> getComments(int postId) {

@@ -16,9 +16,13 @@ import java.io.Serializable;
 public class Favorite {
 
     @Embeddable
-    class PK implements Serializable {
+    static class PK implements Serializable {
         int postId;
         int userID;
+
+        public PK() {
+
+        }
     }
 
     @EmbeddedId
@@ -48,15 +52,7 @@ public class Favorite {
         return postId;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
     public int getUserID() {
         return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 }
