@@ -18,13 +18,10 @@ import java.util.Random;
 public class UserController {
 
     @Autowired
-    HttpSession session;
-
-    @Autowired
     UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/registration")
-    public User userRegistration(HttpServletRequest request, HttpServletResponse response) {
+    public User userRegistration(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -47,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();

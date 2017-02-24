@@ -29,9 +29,6 @@ public class PostController {
 //    private HttpSession session = ;
 
     @Autowired
-    HttpSession session;
-
-    @Autowired
     PostService postService;
 
     @Autowired
@@ -43,7 +40,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response ) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
