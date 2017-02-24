@@ -33,14 +33,12 @@ public class CommentDao {
 
     public List<Comment> getComments(int postId) {
         Query queryComments = sessionFactory.getCurrentSession().
-                createQuery("from Comment c where c.postId = ?");
-        queryComments.setParameter(0, postId);
+                createQuery("from Comment c where c.postId = :postId");
+        queryComments.setParameter("postId", postId);
         List<Comment> comments = queryComments.list();
         for (Comment comment : comments) {
-            Query queryUsers = sessionFactory.getCurrentSession().
-                    createQuery("FROM User u where u.id = ?");
-            queryUsers.setParameter(0, comment.getUserId());
-            comment.setUser((User) queryUsers.list().get(0));
+            comment.setUser(sessionFactory.getCurrentSession().
+                    get(User.class, comment.getUserId()));
         }
         return comments;
     }

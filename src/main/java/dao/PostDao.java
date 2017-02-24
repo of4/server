@@ -1,6 +1,5 @@
 package dao;
 
-import model.Comment;
 import model.Favorite;
 import model.Location;
 import model.Post;
@@ -8,6 +7,7 @@ import model.User;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -33,9 +33,7 @@ public class PostDao {
     }
 
     public List<Post> getAllPosts() {
-        try (Session s = sessionFactory.openSession()) {
-            return s.createCriteria(Post.class).list();
-        }
+        return sessionFactory.getCurrentSession().createCriteria(Post.class).list();
     }
 
     public void addToFavorite(int userId, int postId) {
@@ -46,8 +44,8 @@ public class PostDao {
 
     public List<Post> getFavorites(int userId) {
         Query queryFavorites = sessionFactory.getCurrentSession().
-                createQuery("from Favorite f where f.userID = ?");
-        queryFavorites.setParameter(0, userId);
+                createQuery("from Favorite f where f.userID = :userId");
+        queryFavorites.setParameter("userId", userId);
         List<Favorite> favorites = queryFavorites.list();
         List<Post> posts = new ArrayList<>();
         for (Favorite favorite : favorites) {
@@ -61,25 +59,21 @@ public class PostDao {
         double latitude = location.getLatitude();
         double radius = 0.06;
         Query queryLocations = sessionFactory.getCurrentSession().
-                createQuery("from Location l where ((l.latitude - ?) * (l.latitude - ?)  + " +
-                        "(l.longitude - ?) * (l.longitude - ?)) < ?");
-        queryLocations.setParameter(0, latitude);
-        queryLocations.setParameter(1, latitude);
-        queryLocations.setParameter(2, longitude);
-        queryLocations.setParameter(3, longitude);
-        queryLocations.setParameter(4, radius * radius);
+                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - latitude)  + " +
+                        "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
+        queryLocations.setParameter("latitude", latitude);
+        queryLocations.setParameter("longitude", longitude);
+        queryLocations.setParameter("radius", radius * radius);
         List<Location> nearLocations = queryLocations.list();
         List<Post> posts = new ArrayList<>();
 
         for (Location nearLocation : nearLocations) {
-            Query queryPost = sessionFactory.getCurrentSession().
-                    createQuery("from Post p where p.locationId = ?");
-            queryPost.setParameter(0, nearLocation.getId());
-            Post post = (Post) queryPost.list().get(0);
-            Query queryUser = sessionFactory.getCurrentSession().
-                    createQuery("from User u where u.id = ?");
-            queryUser.setParameter(0, post.getUserId());
-            post.setUser((User) queryUser.list().get(0));
+            Post post = (Post) sessionFactory.getCurrentSession().
+                    createCriteria(Post.class).
+                    add(Restrictions.eq("locationId", nearLocation.getId())).
+                    uniqueResult();
+            post.setUser(sessionFactory.getCurrentSession().
+                    get(User.class, post.getUserId()));
             post.setLocation(nearLocation);
             posts.add(post);
         }

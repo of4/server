@@ -24,9 +24,9 @@ CREATE TABLE users
   name          VARCHAR,
   email         VARCHAR NOT NULL,
   password      VARCHAR NOT NULL,
-  token         VARCHAR NOT NULL,
+  token      VARCHAR NOT NULL,
   advertiser    BOOLEAN NOT NULL DEFAULT FALSE,
-  create_time   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE locations
@@ -44,7 +44,7 @@ CREATE TABLE posts
   user_id       INTEGER REFERENCES users (user_id),
   text          VARCHAR,
   category      posts_category DEFAULT 'ALL',
-  create_time   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE comments
@@ -53,7 +53,7 @@ CREATE TABLE comments
   post_id       INTEGER REFERENCES posts (post_id),
   user_id       INTEGER REFERENCES users (user_id),
   text          VARCHAR,
-  create_time   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
 CREATE TABLE favorite

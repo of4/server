@@ -17,9 +17,9 @@ public class UserDao {
 
     public User getUser(String email, String password) {
         Query query = sessionFactory.getCurrentSession().
-                createQuery("from User u where u.email = ? and u.password = ?");
-        query.setParameter(0, email);
-        query.setParameter(1, password);
+                createQuery("from User u where u.email = :email and u.password = :password");
+        query.setParameter("email", email);
+        query.setParameter("password", password);
         return (User) query.uniqueResult();
     }
 
@@ -29,7 +29,8 @@ public class UserDao {
 
     public void update(User user) {
         Query query = sessionFactory.getCurrentSession().
-                createQuery("update User u set  u.advertiser = :adv, " +
+                createQuery("update User u set  " +
+                        "u.advertiser = :adv, " +
                         "u.email = :email, " +
                         "u.name = :name  " +
                         "where u.id = :userId");
