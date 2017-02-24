@@ -30,7 +30,7 @@ public class CommentService {
     }
 
     @Transactional
-    public List<Comment> getCommentsThisPost(int postId) {
+    public List<Comment> getCommentsForThisPost(int postId) {
         return commentDao.getComments(postId);
     }
 }

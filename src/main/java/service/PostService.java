@@ -47,14 +47,7 @@ public class PostService {
     }
 
     @Transactional
-    public List<Comment> getComments(int postId) {
-        return postDao.getComments(postId);
-    }
-
-    @Transactional
     public List<Post> getNearPosts(Location location) {
         return postDao.getNearPosts(location);
     }
-
-
 }

@@ -52,7 +52,7 @@ public class PostController {
                 postService.create(post);
                 return post;
             } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,29 +86,6 @@ public class PostController {
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
         return new ArrayList<>();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/comments")
-    public List<Comment> userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        List<Comment> comments = new ArrayList<>();
-        try (BufferedReader reader = request.getReader()) {
-            StringBuilder content = new StringBuilder();
-            reader.lines().forEach(content::append);
-            JsonParser parser = new JsonParser();
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("token").getAsString();
-            int postId = Integer.parseInt(parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("postId").getAsString());
-            if (session.getAttribute(token) != null) {
-                comments.addAll(postService.getComments(postId));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
-        }
-        return comments;
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")

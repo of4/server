@@ -14,13 +14,6 @@ public class UserDao {
     @Autowired
     SessionFactory sessionFactory;
 
-    public User getUser(int id) {
-        Query query = sessionFactory.getCurrentSession().
-                createQuery("from User u where u.id = ?");
-        query.setParameter(0, id);
-        return (User) query.uniqueResult();
-    }
-
     public User getUser(String email, String password) {
         Query query = sessionFactory.getCurrentSession().
                 createQuery("from User u where u.email = ? and u.password = ?");
@@ -34,7 +27,16 @@ public class UserDao {
     }
 
     public void update(User user) {
-        sessionFactory.getCurrentSession().update(user);//.saveOrUpdate(user);
+        Query query = sessionFactory.getCurrentSession().
+                createQuery("update User u set  u.advertiser = :adv, " +
+                        "u.email = :email, " +
+                        "u.name = :name  " +
+                        "where u.id = :userId");
+        query.setParameter("adv", user.isAdvertiser());
+        query.setParameter("email", user.getEmail());
+        query.setParameter("name", user.getName());
+        query.setParameter("userId", user.getId());
+        //sessionFactory.getCurrentSession().update(user);
     }
 
     public void delete(User user) {

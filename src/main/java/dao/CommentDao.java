@@ -1,6 +1,7 @@
 package dao;
 
 import model.Comment;
+import model.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,16 @@ public class CommentDao {
     }
 
     public List<Comment> getComments(int postId) {
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM Comment c where c.postId = ?");
-        query.setParameter(0, postId);
-        return query.list();
+        Query queryComments = sessionFactory.getCurrentSession().
+                createQuery("from Comment c where c.postId = ?");
+        queryComments.setParameter(0, postId);
+        List<Comment> comments = queryComments.list();
+        for (Comment comment : comments) {
+            Query queryUsers = sessionFactory.getCurrentSession().
+                    createQuery("FROM User u where u.id = ?");
+            queryUsers.setParameter(0, comment.getUserId());
+            comment.setUser((User) queryUsers.list().get(0));
+        }
+        return comments;
     }
 }

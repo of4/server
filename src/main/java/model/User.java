@@ -37,8 +37,6 @@ public class User {
 //    private List<Post> favorites;
 
     @Transient
-    private String avatarUrl;
-    @Transient
     private String token;
 
     public User() {
@@ -93,14 +91,6 @@ public class User {
         this.createTime = createTime;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
     public String getToken() {
         return token;
     }
@@ -117,7 +107,6 @@ public class User {
         User user = (User) o;
 
         return email != null ? email.equals(user.email) : user.email == null;
-
     }
 
     @Override

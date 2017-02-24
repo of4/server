@@ -78,7 +78,6 @@ public class UserController {
                 selectedUser.setEmail(user.getEmail());
                 selectedUser.setAdvertiser(user.isAdvertiser());
                 selectedUser.setName(user.getName());
-                selectedUser.setPassword(user.getPassword());
                 userService.update(selectedUser);
                 return selectedUser;
             } else {
