@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import service.CommentService;
+import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +25,11 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/add_comment")
-    public void userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public void userAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
@@ -40,8 +44,8 @@ public class CommentController {
             String text = parser.parse(content.toString()).
                     getAsJsonObject().
                     getAsJsonPrimitive("text").getAsString();
-            if (session.getAttribute(token) != null) {
-                User user = (User) session.getAttribute(token);
+            if (userService.getUserByToken(token) != null) {
+                User user = userService.getUserByToken(token);
                 commentService.create(postId, user.getId(), text);
             }
         } catch (Exception e) {
@@ -51,7 +55,7 @@ public class CommentController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/comments")
-    public List<Comment> getCommetsForThisPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public List<Comment> getCommetsForThisPost(HttpServletRequest request, HttpServletResponse response) {
         List<Comment> comments = new ArrayList<>();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -63,7 +67,7 @@ public class CommentController {
             int postId = Integer.parseInt(parser.parse(content.toString()).
                     getAsJsonObject().
                     getAsJsonPrimitive("postId").getAsString());
-            if (session.getAttribute(token) != null) {
+            if (userService.getUserByToken(token) != null) {
                 comments.addAll(commentService.getCommentsForThisPost(postId));
             }
         } catch (Exception e) {

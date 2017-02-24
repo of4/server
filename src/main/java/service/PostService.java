@@ -1,7 +1,6 @@
 package service;
 
 import dao.PostDao;
-import model.Comment;
 import model.Location;
 import model.Post;
 import org.springframework.beans.factory.annotation.Autowired;

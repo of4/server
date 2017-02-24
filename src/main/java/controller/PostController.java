@@ -41,7 +41,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -66,7 +66,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_posts")
-    public List<Post> getPostsInLocationNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public List<Post> getPostsInLocationNewPost(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
@@ -80,7 +80,7 @@ public class PostController {
                     getAsJsonObject().
                     getAsJsonPrimitive("token").getAsString();
 
-            if (session.getAttribute(token) != null) {
+            if (userService.getUserByToken(token) != null) {
                 return postService.getNearPosts(location);
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -93,7 +93,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
-    public void addToFavorite(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public void addToFavorite(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
@@ -104,8 +104,8 @@ public class PostController {
             int postId = Integer.parseInt(parser.parse(content.toString()).
                     getAsJsonObject().
                     getAsJsonPrimitive("postId").getAsString());
-            if (session.getAttribute(token) != null) {
-                User user = (User) session.getAttribute(token);
+            if (userService.getUserByToken(token) != null) {
+                User user = userService.getUserByToken(token);
                 postService.addToFavorite(user.getId(), postId);
             }
         } catch (Exception e) {
@@ -116,7 +116,7 @@ public class PostController {
 
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_favorites")
-    public List<Post> getFavorites(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public List<Post> getFavorites(HttpServletRequest request, HttpServletResponse response) {
         List<Post> posts = new ArrayList<>();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -125,8 +125,8 @@ public class PostController {
             String token = parser.parse(content.toString()).
                     getAsJsonObject().
                     getAsJsonPrimitive("token").getAsString();
-            if (session.getAttribute(token) != null) {
-                User user = (User) session.getAttribute(token);
+            if (userService.getUserByToken(token) != null) {
+                User user = userService.getUserByToken(token);
                 posts.addAll(postService.getFavorites(user.getId()));
             }
         } catch (Exception e) {
