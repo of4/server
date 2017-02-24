@@ -8,7 +8,6 @@ import model.Post;
 import model.User;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@Scope("session")
 public class PostController {
 
 //    private HttpSession session = ;
+
+    @Autowired
+    HttpSession session;
 
     @Autowired
     PostService postService;
@@ -42,7 +43,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response ) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();

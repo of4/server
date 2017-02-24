@@ -2,9 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import model.User;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
@@ -17,17 +15,16 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@Scope("session")
 public class UserController {
 
     @Autowired
-    SessionFactory sessionFactory;
+    HttpSession session;
 
     @Autowired
     UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/registration")
-    public User userRegistration(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User userRegistration(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -50,7 +47,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
