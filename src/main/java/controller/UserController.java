@@ -4,8 +4,8 @@ import com.google.gson.Gson;
 import model.User;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
+@Scope("session")
 public class UserController {
 
     @Autowired
@@ -49,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(ModelMap model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -59,7 +60,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                model.put(token, selectedUser);
+                session.setAttribute(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
