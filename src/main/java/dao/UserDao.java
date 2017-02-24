@@ -3,6 +3,7 @@ package dao;
 import model.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -49,5 +50,11 @@ public class UserDao {
 
     public List<User> getAll() {
         return sessionFactory.getCurrentSession().createQuery("FROM User").list();
+    }
+
+    public User getUserByToken(String token) {
+        return (User) sessionFactory.getCurrentSession().createCriteria(User.class).
+                add(Restrictions.eq("token", token)).
+                uniqueResult();
     }
 }

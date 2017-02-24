@@ -26,6 +26,8 @@ public class User {
     private boolean advertiser;
     @Column(name = "create_time", insertable = false)
     private Timestamp createTime;
+    @Column(name = "token")
+    private String token;
 
 //    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 //    private List<Post> posts;
@@ -36,8 +38,6 @@ public class User {
 //    @ManyToMany(mappedBy = "users")
 //    private List<Post> favorites;
 
-    @Transient
-    private String token;
 
     public User() {
 

@@ -43,4 +43,9 @@ public class UserService {
     public User getById(Long userId) {
         return userDao.getById(userId);
     }
+
+    @Transactional
+    public User getUserByToken(String token) {
+        return userDao.getUserByToken(token);
+    }
 }

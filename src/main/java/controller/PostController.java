@@ -8,13 +8,12 @@ import model.Post;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import service.LocationService;
 import service.PostService;
+import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,21 +32,24 @@ public class PostController {
     @Autowired
     LocationService locationService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_all_posts")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("tokens") User user1) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (user1 != null && user.getToken().equals(user1.getToken())) {
-                user = user1;
+            if (userService.getUserByToken(user.getToken()) != null) {
+                user = userService.getUserByToken(user.getToken());
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());

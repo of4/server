@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 
 @RestController
-@SessionAttributes("tokens")
 public class UserController {
 
     @Autowired
@@ -46,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, Model model) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -56,7 +54,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                model.addAttribute(token, selectedUser);
+                session.setAttribute(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -80,6 +78,7 @@ public class UserController {
                 selectedUser.setEmail(user.getEmail());
                 selectedUser.setAdvertiser(user.isAdvertiser());
                 selectedUser.setName(user.getName());
+                selectedUser.setPassword(user.getPassword());
                 userService.update(selectedUser);
                 return selectedUser;
             } else {
