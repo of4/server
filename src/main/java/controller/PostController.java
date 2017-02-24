@@ -6,6 +6,7 @@ import model.Comment;
 import model.Location;
 import model.Post;
 import model.User;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import java.util.List;
 
 @RestController
 public class PostController {
+
+//    private HttpSession session = ;
 
     @Autowired
     PostService postService;
@@ -44,8 +47,8 @@ public class PostController {
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (session.getAttribute(user.getToken()) != null) {
-                user = (User) session.getAttribute(user.getToken());
+            if (request.getAttribute(user.getToken()) != null) {
+                user = (User) request.getAttribute(user.getToken());
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());

@@ -34,7 +34,7 @@ public class UserController {
                 user.setToken(token);
                 user.setName(user.getEmail());
                 userService.create(user);
-                session.setAttribute(token, user);
+                request.getSession().setAttribute(token, user);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                session.setAttribute(token, selectedUser);
+                request.getSession().setAttribute(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
