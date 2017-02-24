@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -54,7 +54,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                session.setAttribute(token, selectedUser);
+                Tokens.setUserByToken(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -101,7 +101,7 @@ public class UserController {
 //    }
 
     public String generateToken() {
-        int tokenLength = 30;
+        int tokenLength = 50;
         char[] chars = "1234567890abcdefghijklmnopqrstuvwxyz".toCharArray();
         StringBuilder sb = new StringBuilder();
         Random random = new Random();

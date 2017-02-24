@@ -37,15 +37,15 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (session.getAttribute(user.getToken()) != null) {
-                user = (User) session.getAttribute(user.getToken());
+            if (Tokens.getUserByToken(user.getToken()) != null) {
+                user = (User) Tokens.getUserByToken(user.getToken());
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());

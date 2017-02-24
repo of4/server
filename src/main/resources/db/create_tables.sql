@@ -24,6 +24,7 @@ CREATE TABLE users
   name          VARCHAR,
   email         VARCHAR NOT NULL,
   password      VARCHAR NOT NULL,
+  token         VARCHAR NOT NULL,
   advertiser    BOOLEAN NOT NULL DEFAULT FALSE,
   create_time   TIMESTAMP NOT NULL DEFAULT now()
 );

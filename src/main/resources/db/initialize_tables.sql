@@ -1,7 +1,7 @@
-INSERT INTO users (name, email, password)
-VALUES ('TestName', 'testName@test.ru', 'password_in_md5');
-INSERT INTO users (name, email, password, advertiser)
-VALUES ('User', 'user@gmail.com', 'pass', TRUE);
+INSERT INTO users (name, email, password, token)
+VALUES ('TestName', 'testName@test.ru', 'password_in_md5', 'hjuxehc48pm6at4tsy83mwl5eo85np6y4a0jhhbkgh12h1uk2f');
+INSERT INTO users (name, email, password, advertiser, token)
+VALUES ('User', 'user@gmail.com', 'pass', TRUE, 'jyy99lt5v30ftbtobfyrb85vsxw5mw1frts5dwo4umg36khfr0');
 
 INSERT INTO locations (location_name, latitude, longitude)
 VALUES ('Street 1', 2.28, 3.22);
