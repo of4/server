@@ -8,9 +8,11 @@ import model.Post;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import service.LocationService;
 import service.PostService;
 
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@SessionAttributes("tokens")
 public class PostController {
 
     @Autowired
@@ -37,15 +40,15 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("tokens") User user1) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (Tokens.getUserByToken(user.getToken()) != null) {
-                user = (User) Tokens.getUserByToken(user.getToken());
+            if (user1 != null && user.getToken().equals(user1.getToken())) {
+                user = user1;
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());
