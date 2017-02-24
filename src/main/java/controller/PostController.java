@@ -9,6 +9,7 @@ import model.User;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,15 +41,15 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public Post createNewPost(ModelMap model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (request.getAttribute(user.getToken()) != null) {
-                user = (User) request.getAttribute(user.getToken());
+            if (model.containsAttribute(user.getToken())) {
+                user = (User) model.get(user.getToken());
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());

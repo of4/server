@@ -2,8 +2,10 @@ package controller;
 
 import com.google.gson.Gson;
 import model.User;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import service.UserService;
 
@@ -16,6 +18,9 @@ import java.util.Random;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    SessionFactory sessionFactory;
 
     @Autowired
     UserService userService;
@@ -34,7 +39,7 @@ public class UserController {
                 user.setToken(token);
                 user.setName(user.getEmail());
                 userService.create(user);
-                request.getSession().setAttribute(token, user);
+                session.setAttribute(token, user);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +49,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User userAuthentication(ModelMap model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -54,7 +59,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                request.getSession().setAttribute(token, selectedUser);
+                model.put(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
