@@ -6,10 +6,8 @@ import model.Comment;
 import model.Location;
 import model.Post;
 import model.User;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +25,6 @@ import java.util.List;
 @RestController
 public class PostController {
 
-//    private HttpSession session = ;
-
     @Autowired
     PostService postService;
 
@@ -41,15 +37,15 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
-    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+    public Post createNewPost(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         Post post = new Post();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             post = new Gson().fromJson(content.toString(), Post.class);
             User user = post.getUser();
-            if (model.containsAttribute((user.getToken()))) {
-                user = (User) model.get(user.getToken());
+            if (session.getAttribute(user.getToken()) != null) {
+                user = (User) session.getAttribute(user.getToken());
                 locationService.create(post.getLocation());
                 post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());

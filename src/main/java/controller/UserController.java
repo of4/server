@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +21,7 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/registration")
-    public User userRegistration(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+    public User userRegistration(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -36,7 +34,7 @@ public class UserController {
                 user.setToken(token);
                 user.setName(user.getEmail());
                 userService.create(user);
-                model.put(token, user);
+                session.setAttribute(token, user);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +44,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/authentication")
-    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, ModelMap model) {
+    public User userAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
@@ -56,7 +54,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                model.put(token, selectedUser);
+                session.setAttribute(token, selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
