@@ -65,14 +65,14 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/change_user")
-    public User changeUser(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    public User changeUser(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
             user = new Gson().fromJson(content.toString(), User.class);
-            if (session.getAttribute(user.getToken()) != null) {
-                User selectedUser = (User) session.getAttribute(user.getToken());
+            if (userService.getUserByToken(user.getToken()) != null) {
+                User selectedUser = userService.getUserByToken(user.getToken());
                 selectedUser.setEmail(user.getEmail());
                 selectedUser.setAdvertiser(user.isAdvertiser());
                 selectedUser.setName(user.getName());

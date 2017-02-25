@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import service.CommentService;
 import service.UserService;
+import util.Parser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,17 +34,9 @@ public class CommentController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            JsonParser parser = new JsonParser();
-
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("token").getAsString();
-            int postId = Integer.parseInt(parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("postId").getAsString());
-            String text = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("text").getAsString();
+            String token = Parser.getToken(content.toString());
+            int postId = Parser.getPostId(content.toString());
+            String text = Parser.getText(content.toString());
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 commentService.create(postId, user.getId(), text);
@@ -55,18 +48,13 @@ public class CommentController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/comments")
-    public List<Comment> getCommetsForThisPost(HttpServletRequest request, HttpServletResponse response) {
+    public List<Comment> getCommentsForThisPost(HttpServletRequest request, HttpServletResponse response) {
         List<Comment> comments = new ArrayList<>();
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            JsonParser parser = new JsonParser();
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("token").getAsString();
-            int postId = Integer.parseInt(parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("postId").getAsString());
+            String token = Parser.getToken(content.toString());
+            int postId = Parser.getPostId(content.toString());
             if (userService.getUserByToken(token) != null) {
                 comments.addAll(commentService.getCommentsForThisPost(postId));
             }
