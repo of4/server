@@ -38,6 +38,7 @@ public class UserDao {
         query.setParameter("email", user.getEmail());
         query.setParameter("name", user.getName());
         query.setParameter("userId", user.getId());
+        query.executeUpdate();
         //sessionFactory.getCurrentSession().update(user);
     }
 

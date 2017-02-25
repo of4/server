@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import service.LocationService;
 import service.PostService;
 import service.UserService;
+import util.Parser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,13 +98,8 @@ public class PostController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            JsonParser parser = new JsonParser();
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("token").getAsString();
-            int postId = Integer.parseInt(parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("postId").getAsString());
+            String token = Parser.getToken(content.toString());
+            int postId = Parser.getPostId(content.toString());
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 postService.addToFavorite(user.getId(), postId);
