@@ -47,6 +47,7 @@ public class UserDao {
                         "u.token = :token where u.id = :userId");
         query.setParameter("token", user.getToken());
         query.setParameter("userId", user.getId());
+        query.executeUpdate();
         //sessionFactory.getCurrentSession().update(user);
     }
 
