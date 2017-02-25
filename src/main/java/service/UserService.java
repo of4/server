@@ -35,6 +35,11 @@ public class UserService {
     }
 
     @Transactional
+    public void updateToken(User user) {
+        userDao.updateToken(user);
+    }
+
+    @Transactional
     public List<User> getAll() {
         return userDao.getAll();
     }
