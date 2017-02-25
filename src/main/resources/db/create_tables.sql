@@ -16,7 +16,7 @@ CREATE SEQUENCE location_id_seq START 100000;
 CREATE SEQUENCE post_id_seq START 100000;
 CREATE SEQUENCE comment_id_seq START 100000;
 
-CREATE TYPE posts_category AS ENUM ('ALL', 'EDU', 'INF', 'JOB', 'SHO', 'AD');
+-- CREATE TYPE posts_category AS ENUM ('ALL', 'EDU', 'INF', 'JOB', 'SHO', 'AD');
 
 CREATE TABLE users
 (
@@ -24,7 +24,7 @@ CREATE TABLE users
   name          VARCHAR,
   email         VARCHAR NOT NULL,
   password      VARCHAR NOT NULL,
-  token      VARCHAR NOT NULL,
+  token         VARCHAR NOT NULL,
   advertiser    BOOLEAN NOT NULL DEFAULT FALSE,
   create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
@@ -43,7 +43,7 @@ CREATE TABLE posts
   location_id   INTEGER REFERENCES locations (location_id),
   user_id       INTEGER REFERENCES users (user_id),
   text          VARCHAR,
-  category      posts_category DEFAULT 'ALL',
+  category      VARCHAR DEFAULT 'ALL',
   create_time   TIMESTAMP NOT NULL DEFAULT now()
 );
 
