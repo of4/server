@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import model.Comment;
 import model.Location;
 import model.Post;
 import model.User;
@@ -10,13 +11,15 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.LocationService;
 import service.PostService;
 import service.UserService;
-import util.Parser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,9 @@ public class PostController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    LocationService locationService;
 
     @Autowired
     UserService userService;
@@ -44,6 +50,8 @@ public class PostController {
             User user = post.getUser();
             if (userService.getUserByToken(user.getToken()) != null) {
                 user = userService.getUserByToken(user.getToken());
+                locationService.create(post.getLocation());
+                post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());
                 postService.create(post);
                 return post;
@@ -62,12 +70,16 @@ public class PostController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
+
             JsonParser parser = new JsonParser();
             Location location = new Gson().
                     fromJson(parser.parse(content.toString()).
                             getAsJsonObject().
                             getAsJsonObject("location"), Location.class);
-            String token = Parser.getToken(content.toString());
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+
             if (userService.getUserByToken(token) != null) {
                 return postService.getNearPosts(location);
             } else {
@@ -85,8 +97,13 @@ public class PostController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            String token = Parser.getToken(content.toString());
-            int postId = Parser.getPostId(content.toString());
+            JsonParser parser = new JsonParser();
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
+            int postId = Integer.parseInt(parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("postId").getAsString());
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 postService.addToFavorite(user.getId(), postId);
@@ -104,7 +121,10 @@ public class PostController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            String token = Parser.getToken(content.toString());
+            JsonParser parser = new JsonParser();
+            String token = parser.parse(content.toString()).
+                    getAsJsonObject().
+                    getAsJsonPrimitive("token").getAsString();
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 posts.addAll(postService.getFavorites(user.getId()));

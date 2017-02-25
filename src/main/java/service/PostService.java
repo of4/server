@@ -1,6 +1,5 @@
 package service;
 
-import dao.LocationDao;
 import dao.PostDao;
 import model.Location;
 import model.Post;
@@ -16,13 +15,8 @@ public class PostService {
     @Autowired
     PostDao postDao;
 
-    @Autowired
-    LocationDao locationDao;
-
     @Transactional
     public void create(Post post) {
-        locationDao.create(post.getLocation());
-        post.setLocationId(post.getLocation().getId());
         postDao.create(post);
     }
 
