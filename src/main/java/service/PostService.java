@@ -22,6 +22,7 @@ public class PostService {
     @Transactional
     public void create(Post post) {
         locationDao.create(post.getLocation());
+        post.setLocationId(post.getLocation().getId());
         postDao.create(post);
     }
 

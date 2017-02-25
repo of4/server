@@ -44,7 +44,6 @@ public class PostController {
             User user = post.getUser();
             if (userService.getUserByToken(user.getToken()) != null) {
                 user = userService.getUserByToken(user.getToken());
-                post.setLocationId(post.getLocation().getId());
                 post.setUserId(user.getId());
                 postService.create(post);
                 return post;
