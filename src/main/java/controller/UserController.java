@@ -53,7 +53,7 @@ public class UserController {
             if (selectedUser != null) {
                 String token = generateToken();
                 selectedUser.setToken(token);
-                userService.update(selectedUser);
+                userService.updateToken(selectedUser);
                 return selectedUser;
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
