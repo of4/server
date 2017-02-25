@@ -23,6 +23,8 @@ public class Post {
     private int userId;
     @Column(name = "text")
     private String text;
+    @Column(name = "category")
+    private String category;
     @Column(name = "create_time", insertable = false)
     private Timestamp createTime;
 
@@ -117,6 +119,14 @@ public class Post {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public List<Comment> getComments() {

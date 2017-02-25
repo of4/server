@@ -54,7 +54,7 @@ public class PostDao {
         return posts;
     }
 
-    public List<Post> getNearPosts(Location location) {
+    public List<Post> getAllNearPosts(Location location) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
         double radius = 0.06;
@@ -66,7 +66,6 @@ public class PostDao {
         queryLocations.setParameter("radius", radius * radius);
         List<Location> nearLocations = queryLocations.list();
         List<Post> posts = new ArrayList<>();
-
         for (Location nearLocation : nearLocations) {
             Post post = (Post) sessionFactory.getCurrentSession().
                     createCriteria(Post.class).
@@ -77,7 +76,46 @@ public class PostDao {
             post.setLocation(nearLocation);
             posts.add(post);
         }
+        return sift(posts, location, radius / 2);
+    }
 
-        return posts;
+
+    public List<Post> getNearPosts(Location location, String category) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        double radius = 0.06;
+        Query queryLocations = sessionFactory.getCurrentSession().
+                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - latitude)  + " +
+                        "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
+        queryLocations.setParameter("latitude", latitude);
+        queryLocations.setParameter("longitude", longitude);
+        queryLocations.setParameter("radius", radius * radius);
+        List<Location> nearLocations = queryLocations.list();
+        List<Post> posts = new ArrayList<>();
+        for (Location nearLocation : nearLocations) {
+            Post post = (Post) sessionFactory.getCurrentSession().
+                    createCriteria(Post.class).
+                    add(Restrictions.eq("locationId", nearLocation.getId())).
+                    add(Restrictions.eq("category", category)).
+                    uniqueResult();
+            post.setUser(sessionFactory.getCurrentSession().
+                    get(User.class, post.getUserId()));
+            post.setLocation(nearLocation);
+            posts.add(post);
+        }
+        return sift(posts, location, radius / 2);
+    }
+
+    private List<Post> sift(List<Post> posts, Location location, double radius) {
+        List<Post> siftedPosts = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getUser().isAdvertiser() ||
+                    Math.pow(post.getLocation().getLongitude() - location.getLongitude(), 2)
+                            + Math.pow(post.getLocation().getLatitude() - location.getLatitude(), 2) < radius) {
+                post.setTimeOffset(System.currentTimeMillis() - post.getCreateTime().getTime());
+                siftedPosts.add(post);
+            }
+        }
+        return siftedPosts;
     }
 }
