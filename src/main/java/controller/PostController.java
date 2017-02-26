@@ -104,10 +104,7 @@ public class PostController {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
-            JsonParser parser = new JsonParser();
-            String token = parser.parse(content.toString()).
-                    getAsJsonObject().
-                    getAsJsonPrimitive("token").getAsString();
+            String token = Parser.getToken(content.toString());
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 posts.addAll(postService.getFavorites(user.getId()));
