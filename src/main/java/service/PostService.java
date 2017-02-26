@@ -3,6 +3,7 @@ package service;
 import dao.PostDao;
 import model.Location;
 import model.Post;
+import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,14 @@ public class PostService {
     @Autowired
     PostDao postDao;
 
+    @Autowired
+    LocationService locationService;
+
     @Transactional
-    public void create(Post post) {
+    public void create(Post post, User user) {
+        locationService.create(post.getLocation());
+        post.setLocationId(post.getLocation().getId());
+        post.setUserId(user.getId());
         postDao.create(post);
     }
 

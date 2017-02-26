@@ -48,10 +48,7 @@ public class PostController {
             User user = post.getUser();
             if (userService.getUserByToken(user.getToken()) != null) {
                 user = userService.getUserByToken(user.getToken());
-                locationService.create(post.getLocation());
-                post.setLocationId(post.getLocation().getId());
-                post.setUserId(user.getId());
-                postService.create(post);
+                postService.create(post, user);
                 return post;
             } else {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
