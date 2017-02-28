@@ -90,6 +90,7 @@ public class PostController {
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 postService.addToFavorite(user.getId(), postId);
+                response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
             e.printStackTrace();

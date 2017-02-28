@@ -37,6 +37,7 @@ public class CommentController {
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
                 commentService.create(postId, user.getId(), text);
+                response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
