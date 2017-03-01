@@ -27,7 +27,7 @@ public class CommentController {
     UserService userService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/add_comment")
-    public void userAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    public void addComment(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
