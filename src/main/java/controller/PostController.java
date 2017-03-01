@@ -87,11 +87,11 @@ public class PostController {
             reader.lines().forEach(content::append);
             String token = Parser.getToken(content.toString());
             int postId = Parser.getPostId(content.toString());
-//            if (userService.getUserByToken(token) != null) {
-//                User user = userService.getUserByToken(token);
+            if (userService.getUserByToken(token) != null) {
+                User user = userService.getUserByToken(token);
 //                postService.addToFavorite(user.getId(), postId);
-//                response.setStatus(HttpServletResponse.SC_OK);
-//            }
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
