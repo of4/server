@@ -98,10 +98,12 @@ public class PostDao {
                     add(Restrictions.eq("locationId", nearLocation.getId())).
                     add(Restrictions.like("category", category)).
                     uniqueResult();
-            post.setUser(sessionFactory.getCurrentSession().
-                    get(User.class, post.getUserId()));
-            post.setLocation(nearLocation);
-            posts.add(post);
+            if (post != null) {
+                post.setUser(sessionFactory.getCurrentSession().
+                        get(User.class, post.getUserId()));
+                post.setLocation(nearLocation);
+                posts.add(post);
+            }
         }
         return sift(posts, location, radius / 2);
     }
