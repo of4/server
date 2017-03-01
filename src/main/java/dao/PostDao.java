@@ -59,7 +59,7 @@ public class PostDao {
         double latitude = location.getLatitude();
         double radius = 0.06;
         Query queryLocations = sessionFactory.getCurrentSession().
-                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - latitude)  + " +
+                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - :latitude)  + " +
                         "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
         queryLocations.setParameter("latitude", latitude);
         queryLocations.setParameter("longitude", longitude);
@@ -85,7 +85,7 @@ public class PostDao {
         double latitude = location.getLatitude();
         double radius = 0.06;
         Query queryLocations = sessionFactory.getCurrentSession().
-                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - latitude)  + " +
+                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - :latitude)  + " +
                         "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
         queryLocations.setParameter("latitude", latitude);
         queryLocations.setParameter("longitude", longitude);
