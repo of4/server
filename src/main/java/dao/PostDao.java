@@ -95,9 +95,8 @@ public class PostDao {
         for (Location nearLocation : nearLocations) {
             Post post = (Post) sessionFactory.getCurrentSession().
                     createCriteria(Post.class).
-                    add(Restrictions.and(
-                            Restrictions.eq("locationId", nearLocation.getId()),
-                            Restrictions.like("category", category))).
+                    add(Restrictions.eq("locationId", nearLocation.getId())).
+                    add(Restrictions.like("category", category)).
                     uniqueResult();
             post.setUser(sessionFactory.getCurrentSession().
                     get(User.class, post.getUserId()));
