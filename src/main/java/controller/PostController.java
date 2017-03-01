@@ -81,7 +81,7 @@ public class PostController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
-    public String addToFavorite(HttpServletRequest request, HttpServletResponse response) {
+    public void addToFavorite(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
             reader.lines().forEach(content::append);
@@ -96,7 +96,6 @@ public class PostController {
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
-        return "";
     }
 
 
