@@ -80,7 +80,7 @@ public class PostController {
         return new ArrayList<>();
     }
 
-    @RequestMapping(method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_favorite")
     public void addToFavorite(HttpServletRequest request, HttpServletResponse response) {
         try (BufferedReader reader = request.getReader()) {
             StringBuilder content = new StringBuilder();
