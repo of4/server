@@ -43,18 +43,7 @@ public class PostService {
     }
 
     @Transactional
-    public void addToFavorite(int userId, int postId) {
-        postDao.addToFavorite(userId, postId);
-    }
-
-    @Transactional
-    public List<Post> getFavorites(int userId) {
-        return postDao.getFavorites(userId);
-    }
-
-    @Transactional
     public List<Post> getNearPosts(Location location, String category) {
-        System.out.println("in service " + category);
         if (category.equals("ALL")) {
             return postDao.getAllNearPosts(location);
         } else {
