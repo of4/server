@@ -43,11 +43,11 @@ public class PostService {
     }
 
     @Transactional
-    public List<Post> getNearPosts(Location location, String category) {
+    public List<Post> getNearPosts(Location location, String category, int userId) {
         if (category.equals("ALL")) {
-            return postDao.getAllNearPosts(location);
+            return postDao.getAllNearPosts(location, userId);
         } else {
-            return postDao.getNearPosts(location, category);
+            return postDao.getNearPosts(location, category, userId);
         }
     }
 }

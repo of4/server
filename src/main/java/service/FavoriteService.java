@@ -19,8 +19,8 @@ public class FavoriteService {
     FavoriteDAO favoriteDAO;
 
     @Transactional
-    public void delete(Favorite favorite) {
-        favoriteDAO.delete(favorite);
+    public void delete(int userId, int postId) {
+        favoriteDAO.delete(userId, postId);
     }
 
     @Transactional
@@ -36,5 +36,10 @@ public class FavoriteService {
     @Transactional
     public List<Post> getFavorites(int userId) {
         return favoriteDAO.getFavorites(userId);
+    }
+
+    @Transactional
+    public boolean isFavorite(int userId, int postId) {
+        return favoriteDAO.isFavorite(userId, postId);
     }
 }

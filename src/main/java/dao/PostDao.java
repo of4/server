@@ -36,7 +36,7 @@ public class PostDao {
         return sessionFactory.getCurrentSession().createCriteria(Post.class).list();
     }
 
-    public List<Post> getAllNearPosts(Location location) {
+    public List<Post> getAllNearPosts(Location location, int userId) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
         double radius = 0.06;
@@ -56,13 +56,17 @@ public class PostDao {
             post.setUser(sessionFactory.getCurrentSession().
                     get(User.class, post.getUserId()));
             post.setLocation(nearLocation);
+            Favorite favorite = new Favorite();
+            favorite.setPk(userId, post.getId());
+            post.setFavorite(sessionFactory.getCurrentSession().
+                    get(Favorite.class, favorite.getPk()) != null);
             posts.add(post);
         }
         return sift(posts, location, radius / 2);
     }
 
 
-    public List<Post> getNearPosts(Location location, String category) {
+    public List<Post> getNearPosts(Location location, String category, int userId) {
         double longitude = location.getLongitude();
         double latitude = location.getLatitude();
         double radius = 0.06;
@@ -84,6 +88,10 @@ public class PostDao {
                 post.setUser(sessionFactory.getCurrentSession().
                         get(User.class, post.getUserId()));
                 post.setLocation(nearLocation);
+                Favorite favorite = new Favorite();
+                favorite.setPk(userId, post.getId());
+                post.setFavorite(sessionFactory.getCurrentSession().
+                        get(Favorite.class, favorite.getPk()) != null);
                 posts.add(post);
             }
         }

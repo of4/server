@@ -51,6 +51,8 @@ public class Post {
     @Transient
     private Location location;
     @Transient
+    private boolean favorite;
+    @Transient
     private List<Comment> comments;
 
     public Post() {
@@ -135,5 +137,13 @@ public class Post {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }

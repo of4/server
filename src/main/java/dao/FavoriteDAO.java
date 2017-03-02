@@ -1,7 +1,9 @@
 package dao;
 
 import model.Favorite;
+import model.Location;
 import model.Post;
+import model.User;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,9 @@ public class FavoriteDAO {
         sessionFactory.getCurrentSession().update(favorite);
     }
 
-    public void delete(Favorite favorite) {
+    public void delete(int userId, int postId) {
+        Favorite favorite = new Favorite();
+        favorite.setPk(userId, postId);
         sessionFactory.getCurrentSession().delete(favorite);
     }
 
@@ -41,8 +45,32 @@ public class FavoriteDAO {
         List<Favorite> favorites = queryFavorites.list();
         List<Post> posts = new ArrayList<>();
         for (Favorite favorite : favorites) {
-            posts.add(sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId()));
+            Post post = sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId());
+            post.setUser(sessionFactory.getCurrentSession().get(User.class, post.getUserId()));
+            post.setLocation(sessionFactory.getCurrentSession().get(Location.class, post.getLocationId()));
+            posts.add(post);
         }
         return posts;
+    }
+
+    public boolean isFavorite(int userId, int postId) {
+//        Query queryFavorites = sessionFactory.getCurrentSession().
+//                createQuery("from Favorite f where f.postId = :postId and f.userID = :userId");
+//        queryFavorites.setParameter("postId", postId);
+//        queryFavorites.setParameter("userId", userId);
+
+        Favorite favorite = new Favorite();
+        favorite.setPk(userId, postId);
+        return sessionFactory.getCurrentSession().get(Favorite.class, favorite.getPk()) != null;
+//        if (sessionFactory.getCurrentSession().get(Favorite.class, favorite.getPk()) != null) {
+
+            //queryFavorites.getFirstResult();
+//        }
+//        get(User.class, comment.getUserId()));
+//        List<Post> posts = new ArrayList<>();
+//        for (Favorite favorite : favorites) {
+//            posts.add(sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId()));
+//        }
+//        return posts;
     }
 }

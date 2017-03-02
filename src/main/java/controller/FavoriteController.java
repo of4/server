@@ -39,7 +39,11 @@ public class FavoriteController {
             int postId = Parser.getPostId(content.toString());
             if (userService.getUserByToken(token) != null) {
                 User user = userService.getUserByToken(token);
-                favoriteService.addToFavorite(user.getId(), postId);
+                if (favoriteService.isFavorite(user.getId(), postId)) {
+                    favoriteService.delete(user.getId(), postId);
+                } else {
+                    favoriteService.addToFavorite(user.getId(), postId);
+                }
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {

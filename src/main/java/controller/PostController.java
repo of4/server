@@ -66,7 +66,7 @@ public class PostController {
             String token = Parser.getToken(content.toString());
             String category = Parser.getCategory(content.toString());
             if (userService.getUserByToken(token) != null) {
-                return postService.getNearPosts(location, category);
+                return postService.getNearPosts(location, category, userService.getUserByToken(token).getId());
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             }
