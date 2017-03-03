@@ -39,7 +39,7 @@ public class PostService {
 
     @Transactional
     public List<Post> getNearPosts(Location location, String category, int userId) {
-        double radius = 0.02;
+        double radius = 0.01;
         if (category.equals("ALL")) {
             return postDao.getAllNearPosts(location, userId, radius);
         } else {
