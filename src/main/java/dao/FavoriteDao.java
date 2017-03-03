@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FavoriteDAO {
+public class FavoriteDao {
 
     @Autowired
     SessionFactory sessionFactory;

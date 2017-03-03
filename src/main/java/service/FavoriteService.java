@@ -1,6 +1,6 @@
 package service;
 
-import dao.FavoriteDAO;
+import dao.FavoriteDao;
 import model.Favorite;
 import model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +13,30 @@ import java.util.List;
 public class FavoriteService {
 
     @Autowired
-    FavoriteDAO favoriteDAO;
+    FavoriteDao favoriteDao;
 
     @Transactional
     public void delete(int userId, int postId) {
-        favoriteDAO.delete(userId, postId);
+        favoriteDao.delete(userId, postId);
     }
 
     @Transactional
     public void update(Favorite favorite) {
-        favoriteDAO.update(favorite);
+        favoriteDao.update(favorite);
     }
 
     @Transactional
     public void addToFavorite(int userId, int postId) {
-        favoriteDAO.addToFavorite(userId, postId);
+        favoriteDao.addToFavorite(userId, postId);
     }
 
     @Transactional
     public List<Post> getFavorites(int userId) {
-        return favoriteDAO.getFavorites(userId);
+        return favoriteDao.getFavorites(userId);
     }
 
     @Transactional
     public boolean isFavorite(int userId, int postId) {
-        return favoriteDAO.isFavorite(userId, postId);
+        return favoriteDao.isFavorite(userId, postId);
     }
 }

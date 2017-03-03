@@ -4,9 +4,9 @@ INSERT INTO users (name, email, password, advertiser, token)
 VALUES ('User', 'user@gmail.com', 'pass', TRUE, 'jyy99lt5v30ftbtobfyrb85vsxw5mw1frts5dwo4umg36khfr0');
 
 INSERT INTO locations (location_name, latitude, longitude)
-VALUES ('Street 1', 2.28, 3.22);
+VALUES ('Street 1', 50.2341, 50.4325);
 INSERT INTO locations (location_name, latitude, longitude)
-VALUES ('Street 2', 14.88, 50.51);
+VALUES ('Street 2', 50.543, 50.6542);
 
 INSERT INTO posts (location_id, user_id, text, category)
 VALUES (100000, 100000, 'Message1', 'EDU');
