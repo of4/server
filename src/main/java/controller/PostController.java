@@ -1,7 +1,6 @@
 package controller;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import model.Location;
 import model.Post;
 import model.User;
@@ -10,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import service.LocationService;
 import service.PostService;
 import service.UserService;
 import util.Parser;
@@ -29,11 +27,6 @@ public class PostController {
 
     @Autowired
     UserService userService;
-
-    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/get_all_posts")
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
-    }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, value = "/new_post")
     public Post createNewPost(HttpServletRequest request, HttpServletResponse response) {

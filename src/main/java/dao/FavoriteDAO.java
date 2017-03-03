@@ -54,23 +54,8 @@ public class FavoriteDAO {
     }
 
     public boolean isFavorite(int userId, int postId) {
-//        Query queryFavorites = sessionFactory.getCurrentSession().
-//                createQuery("from Favorite f where f.postId = :postId and f.userID = :userId");
-//        queryFavorites.setParameter("postId", postId);
-//        queryFavorites.setParameter("userId", userId);
-
         Favorite favorite = new Favorite();
         favorite.setPk(userId, postId);
         return sessionFactory.getCurrentSession().get(Favorite.class, favorite.getPk()) != null;
-//        if (sessionFactory.getCurrentSession().get(Favorite.class, favorite.getPk()) != null) {
-
-            //queryFavorites.getFirstResult();
-//        }
-//        get(User.class, comment.getUserId()));
-//        List<Post> posts = new ArrayList<>();
-//        for (Favorite favorite : favorites) {
-//            posts.add(sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId()));
-//        }
-//        return posts;
     }
 }

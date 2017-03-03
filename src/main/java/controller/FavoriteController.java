@@ -1,7 +1,5 @@
 package controller;
 
-import com.google.gson.Gson;
-import model.Location;
 import model.Post;
 import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import service.FavoriteService;
-import service.LocationService;
-import service.PostService;
 import service.UserService;
 import util.Parser;
 

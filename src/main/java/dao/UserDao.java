@@ -39,7 +39,6 @@ public class UserDao {
         query.setParameter("name", user.getName());
         query.setParameter("userId", user.getId());
         query.executeUpdate();
-        //sessionFactory.getCurrentSession().update(user);
     }
 
     public void updateToken(User user) {
@@ -49,7 +48,6 @@ public class UserDao {
         query.setParameter("token", user.getToken());
         query.setParameter("userId", user.getId());
         query.executeUpdate();
-        //sessionFactory.getCurrentSession().update(user);
     }
 
     public void delete(User user) {

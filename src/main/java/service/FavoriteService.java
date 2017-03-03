@@ -1,11 +1,8 @@
 package service;
 
 import dao.FavoriteDAO;
-import dao.PostDao;
 import model.Favorite;
-import model.Location;
 import model.Post;
-import model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

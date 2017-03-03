@@ -39,6 +39,7 @@ public class CommentDao {
         for (Comment comment : comments) {
             comment.setUser(sessionFactory.getCurrentSession().
                     get(User.class, comment.getUserId()));
+            comment.setTimeOffset(System.currentTimeMillis() - comment.getCreateTime().getTime());
         }
         return comments;
     }

@@ -5,7 +5,6 @@ import model.Location;
 import model.Post;
 import model.User;
 import org.hibernate.Query;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +31,8 @@ public class PostDao {
         sessionFactory.getCurrentSession().delete(post);
     }
 
-    public List<Post> getAllPosts() {
-        return sessionFactory.getCurrentSession().createCriteria(Post.class).list();
-    }
-
-    public List<Post> getAllNearPosts(Location location, int userId) {
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        double radius = 0.06;
-        Query queryLocations = sessionFactory.getCurrentSession().
-                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - :latitude)  + " +
-                        "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
-        queryLocations.setParameter("latitude", latitude);
-        queryLocations.setParameter("longitude", longitude);
-        queryLocations.setParameter("radius", radius * radius);
-        List<Location> nearLocations = queryLocations.list();
+    public List<Post> getAllNearPosts(Location location, int userId, double radius) {
+        List<Location> nearLocations = getAllNearLocations(location, radius);
         List<Post> posts = new ArrayList<>();
         for (Location nearLocation : nearLocations) {
             Post post = (Post) sessionFactory.getCurrentSession().
@@ -66,17 +52,8 @@ public class PostDao {
     }
 
 
-    public List<Post> getNearPosts(Location location, String category, int userId) {
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        double radius = 0.06;
-        Query queryLocations = sessionFactory.getCurrentSession().
-                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - :latitude)  + " +
-                        "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
-        queryLocations.setParameter("latitude", latitude);
-        queryLocations.setParameter("longitude", longitude);
-        queryLocations.setParameter("radius", radius * radius);
-        List<Location> nearLocations = queryLocations.list();
+    public List<Post> getNearPosts(Location location, String category, int userId, double radius) {
+        List<Location> nearLocations = getAllNearLocations(location, radius);
         List<Post> posts = new ArrayList<>();
         for (Location nearLocation : nearLocations) {
             Post post = (Post) sessionFactory.getCurrentSession().
@@ -109,5 +86,17 @@ public class PostDao {
             }
         }
         return siftedPosts;
+    }
+
+    private List<Location> getAllNearLocations(Location location, double radius) {
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        Query queryLocations = sessionFactory.getCurrentSession().
+                createQuery("from Location l where ((l.latitude - :latitude) * (l.latitude - :latitude)  + " +
+                        "(l.longitude - :longitude) * (l.longitude - :longitude)) < :radius");
+        queryLocations.setParameter("latitude", latitude);
+        queryLocations.setParameter("longitude", longitude);
+        queryLocations.setParameter("radius", radius * radius);
+        return queryLocations.list();
     }
 }

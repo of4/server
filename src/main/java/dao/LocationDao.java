@@ -5,8 +5,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public class LocationDao {
 
@@ -23,9 +21,5 @@ public class LocationDao {
 
     public void delete(Location location) {
         sessionFactory.getCurrentSession().delete(location);
-    }
-
-    public List<Location> getAllLocations() {
-        return sessionFactory.getCurrentSession().createQuery("FROM Location ").list();
     }
 }
