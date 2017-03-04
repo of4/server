@@ -95,11 +95,6 @@ public class UserController {
         return userService.getAll();
     }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
-//    public User getUser(@PathVariable("id") String userId, ModelMap model) {
-//        return userService.getById(Long.parseLong(userId));
-//    }
-
     public String generateToken() {
         int tokenLength = 50;
         char[] chars = "1234567890abcdefghijklmnopqrstuvwxyz".toCharArray();

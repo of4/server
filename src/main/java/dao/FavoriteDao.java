@@ -48,6 +48,7 @@ public class FavoriteDao {
             Post post = sessionFactory.getCurrentSession().get(Post.class, favorite.getPostId());
             post.setUser(sessionFactory.getCurrentSession().get(User.class, post.getUserId()));
             post.setLocation(sessionFactory.getCurrentSession().get(Location.class, post.getLocationId()));
+            post.setTimeOffset(System.currentTimeMillis() - post.getCreateTime().getTime());
             posts.add(post);
         }
         return posts;

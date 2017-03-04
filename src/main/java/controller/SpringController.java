@@ -54,4 +54,9 @@ public class SpringController {
         return userService.getById(Long.parseLong(userId));
     }
     * */
+
+    //    @RequestMapping(method = RequestMethod.GET, value = "/users/{id}")
+//    public User getUser(@PathVariable("id") String userId, ModelMap model) {
+//        return userService.getById(Long.parseLong(userId));
+//    }
 }
