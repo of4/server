@@ -9,14 +9,10 @@ DROP SEQUENCE IF EXISTS location_id_seq;
 DROP SEQUENCE IF EXISTS post_id_seq;
 DROP SEQUENCE IF EXISTS comment_id_seq;
 
--- DROP TYPE IF EXISTS posts_category;
-
 CREATE SEQUENCE user_id_seq START 100000;
 CREATE SEQUENCE location_id_seq START 100000;
 CREATE SEQUENCE post_id_seq START 100000;
 CREATE SEQUENCE comment_id_seq START 100000;
-
--- CREATE TYPE posts_category AS ENUM ('ALL', 'EDU', 'INF', 'JOB', 'SHO', 'AD');
 
 CREATE TABLE users
 (
